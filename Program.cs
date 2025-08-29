@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
 
 
 class Program
@@ -6,7 +7,6 @@ class Program
     static void Main(string[] args)
     {
         StringBuilder builder = new();
-
         string space = "";
 
         foreach (var arg in args)
@@ -38,5 +38,11 @@ class Program
         {
             Console.WriteLine(e.Message);
         }
+    }
+
+    public static string dateFormatting(long seconds)
+    {
+        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(seconds);
+        return dateTimeOffset.ToString("dddd, dd MMMM yyyy HH:mm:ss");
     }
 }
