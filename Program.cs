@@ -67,6 +67,10 @@ class Program
 
     public static void WriteCheep(string cheep)
     {
-        Console.WriteLine(cheep + " " + GetTimestamp());
+        
+        using(StreamWriter writer = File.AppendText("chirp_cli_db.csv"))
+            writer.WriteLine(Environment.UserName + "," + cheep + "," +  GetTimestamp());
+        
+        Console.WriteLine(Environment.UserName + "," + cheep + "," +  GetTimestamp());
     }
 }
