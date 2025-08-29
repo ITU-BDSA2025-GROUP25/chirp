@@ -1,5 +1,6 @@
 ﻿using System.Text;
 
+
 class Program
 {
     static void Main(string[] args)
@@ -16,8 +17,25 @@ class Program
         
         if (builder.ToString().Equals("read"))
         {
-            Console.WriteLine(builder.ToString());
+            ReadCheeps();
         }
         
+    }
+
+    public static void ReadCheeps()
+    {
+        string cheep;
+        try
+        {
+            using StreamReader reader = new("chirp_cli_db.csv");
+             while((cheep = reader.ReadLine) != null){
+			Console.WriteLine(cheep);
+			}
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 }
