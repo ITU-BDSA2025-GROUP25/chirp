@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/hedinmortensen/Desktop/ClothingWebsite/chirp/Chirp.CLI.csproj": {}
+    "C:\\Projects\\chirp\\Chirp.CLI.csproj": {}
   },
   "projects": {
-    "/Users/hedinmortensen/Desktop/ClothingWebsite/chirp/Chirp.CLI.csproj": {
+    "C:\\Projects\\chirp\\Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/hedinmortensen/Desktop/ClothingWebsite/chirp/Chirp.CLI.csproj",
+        "projectUniqueName": "C:\\Projects\\chirp\\Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "/Users/hedinmortensen/Desktop/ClothingWebsite/chirp/Chirp.CLI.csproj",
-        "packagesPath": "/Users/hedinmortensen/.nuget/packages/",
-        "outputPath": "/Users/hedinmortensen/Desktop/ClothingWebsite/chirp/obj/",
+        "projectPath": "C:\\Projects\\chirp\\Chirp.CLI.csproj",
+        "packagesPath": "C:\\Users\\Anton\\.nuget\\packages\\",
+        "outputPath": "C:\\Projects\\chirp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/hedinmortensen/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Anton\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -59,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
