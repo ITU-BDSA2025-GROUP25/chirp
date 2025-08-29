@@ -6,19 +6,32 @@ class Program
 {
     static void Main(string[] args)
     {
-        StringBuilder builder = new();
-        string space = "";
+        StringBuilder key = new();
+        StringBuilder userText = new();
 
-        foreach (var arg in args)
+        string space = "";
+        
+        if (args.Length > 0)
         {
-            builder.Append(space + arg);
+            key.Append(args[0]);
+        }
+        
+
+        for (int i = 1; i < args.Length; i++)
+        {
+            userText.Append(args[i] + space);
             space = " ";
         }
         
-        if (builder.ToString().Equals("read"))
+        
+        if (key.ToString().Equals("read"))
         {
             ReadCheeps();
+        } else if (key.ToString().Equals("cheep"))
+        {
+            writeCheep(userText.ToString());
         }
+
         
     }
 
@@ -44,5 +57,10 @@ class Program
     {
         DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(seconds);
         return dateTimeOffset.ToString("dddd, dd MMMM yyyy HH:mm:ss");
+    }
+
+    public static void writeCheep(string cheep)
+    {
+        Console.WriteLine(cheep);
     }
 }
