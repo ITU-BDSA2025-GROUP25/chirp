@@ -29,7 +29,7 @@ class Program
             ReadCheeps();
         } else if (key.ToString().Equals("cheep"))
         {
-            writeCheep(userText.ToString());
+            WriteCheep(userText.ToString());
         }
 
         
@@ -53,14 +53,20 @@ class Program
         }
     }
 
-    public static string dateFormatting(long seconds)
+    public static string DateFormatting(long seconds)
     {
         DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(seconds);
         return dateTimeOffset.ToString("dddd, dd MMMM yyyy HH:mm:ss");
     }
 
-    public static void writeCheep(string cheep)
+    public static long GetTimestamp()
     {
-        Console.WriteLine(cheep);
+        return DateTimeOffset.Now.ToUnixTimeSeconds();;
+        
+    }
+
+    public static void WriteCheep(string cheep)
+    {
+        Console.WriteLine(cheep + " " + GetTimestamp());
     }
 }
