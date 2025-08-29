@@ -1,7 +1,23 @@
-﻿List<string> cheeps = new() { "Hello, BDSA students!", "Welcome to the course!", "I hope you had a good summer." };
+﻿using System.Text;
 
-foreach (var cheep in cheeps)
+class Program
 {
-    Console.WriteLine(cheep);
-    Thread.Sleep(1000);
+    static void Main(string[] args)
+    {
+        StringBuilder builder = new();
+
+        string space = "";
+
+        foreach (var arg in args)
+        {
+            builder.Append(space + arg);
+            space = " ";
+        }
+        
+        if (builder.ToString().Equals("read"))
+        {
+            Console.WriteLine(builder.ToString());
+        }
+        
+    }
 }
