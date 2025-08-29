@@ -28,9 +28,10 @@ class Program
         try
         {
             using StreamReader reader = new("chirp_cli_db.csv");
-             while((cheep = reader.ReadLine) != null){
-			Console.WriteLine(cheep);
-			}
+            while ((cheep = reader.ReadLine()) != null)
+            {
+                Console.WriteLine(cheep);
+            }
 
         }
         catch (Exception e)
