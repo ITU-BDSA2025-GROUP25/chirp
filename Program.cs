@@ -19,6 +19,10 @@ class Program
 
         for (int i = 1; i < args.Length; i++)
         {
+            if (i == args.Length - 1)
+            {
+                space = "";
+            }
             userText.Append(args[i] + space);
             space = " ";
         }
@@ -69,8 +73,8 @@ class Program
     {
         
         using(StreamWriter writer = File.AppendText("chirp_cli_db.csv"))
-            writer.WriteLine(Environment.UserName + "," + cheep + "," +  GetTimestamp());
+            writer.WriteLine(Environment.UserName + "," + "\"" + cheep + "\"" + "," +  GetTimestamp());
         
-        Console.WriteLine(Environment.UserName + "," + cheep + "," +  GetTimestamp());
+        Console.WriteLine(Environment.UserName + "," + "\"" + cheep + "\"" + "," +  GetTimestamp());
     }
 }
