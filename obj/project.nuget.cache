@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "knvjGOddW6M=",
+  "dgSpecHash": "kxclkFFIExk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ascan\\Desktop\\Github\\BDSA-Group25\\Chirp.CLI.csproj",
+  "projectFilePath": "C:\\Projects\\chirp\\Chirp.CLI.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ascan\\.nuget\\packages\\csvhelper\\33.1.0\\csvhelper.33.1.0.nupkg.sha512"
+    "C:\\Users\\Anton\\.nuget\\packages\\csvhelper\\33.1.0\\csvhelper.33.1.0.nupkg.sha512"
   ],
   "logs": []
 }
