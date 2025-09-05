@@ -1,4 +1,4 @@
-namespace DefaultNamespace;
+namespace Chirp.CLI.Client;
 static class UserInterface
 {
     public static void PrintCheep(string username, string message, long unixSeconds)
