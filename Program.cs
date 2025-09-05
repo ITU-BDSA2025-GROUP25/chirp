@@ -87,10 +87,12 @@ class Program
 
     public static void WriteCheep(string cheep)
     {
-        using(StreamWriter writer = File.AppendText("chirp_cli_db.csv"))
-            writer.WriteLine(Environment.UserName + "," + "\"" + cheep + "\"" + "," +  GetTimestamp());
-        
-        Console.WriteLine(Environment.UserName + "," + "\"" + cheep + "\"" + "," +  GetTimestamp());
+        long ts = GetTimestamp();
+        using (StreamWriter writer = File.AppendText("chirp_cli_db.csv"))
+        {
+            writer.WriteLine(Environment.UserName + "," + "\"" + cheep + "\"" + "," + ts);
+        }
+        UserInterface.PrintCheep(Environment.UserName, cheep, ts);
     }
 }
 
