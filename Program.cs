@@ -55,14 +55,13 @@ class Program
                     string username = parts[0];
                     string message = parts[1];
                     string timestamp = parts[2];
-                    Console.WriteLine($"{username}: {DateFormatting(timestamp)} - {message}");
-                    // Remove the duplicate Console.WriteLine(cheep) if you don't need both outputs
+                    UserInterface.PrintCheep(username, message, long.Parse(timestamp));
                 }
             }
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            UserInterface.PrintError(e.Message);
         }
     }
 
@@ -76,13 +75,6 @@ class Program
             .ToArray();
     }
 
-    public static string DateFormatting(string seconds)
-    {
-        // Convert the string to long before passing to FromUnixTimeSeconds
-        long timestamp = long.Parse(seconds);
-        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(timestamp);
-        return dateTimeOffset.ToString("dddd, dd MMMM yyyy HH:mm:ss");
-    }
 
     public static long GetTimestamp()
     {
@@ -91,10 +83,12 @@ class Program
 
     public static void WriteCheep(string cheep)
     {
-        
-        using(StreamWriter writer = File.AppendText("chirp_cli_db.csv"))
-            writer.WriteLine(Environment.UserName + "," + "\"" + cheep + "\"" + "," +  GetTimestamp());
-        
-        Console.WriteLine(Environment.UserName + "," + "\"" + cheep + "\"" + "," +  GetTimestamp());
+        long ts = GetTimestamp();
+        string line = Environment.UserName + "," + "\"" + cheep + "\"" + "," + ts;
+        using (StreamWriter writer = File.AppendText("chirp_cli_db.csv"))
+        {
+            writer.WriteLine(line);
+        }
+        UserInterface.PrintCheep(Environment.UserName, cheep, ts);
     }
 }
