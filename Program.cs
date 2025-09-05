@@ -2,6 +2,8 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using CsvHelper.Configuration;
+
 namespace Chirp.CLI.Client;
 
 using CsvHelper;
@@ -37,7 +39,7 @@ class Program
            ReadCheeps();
         } else if (key.ToString().Equals("cheep"))
         {
-           // WriteCheep(userText.ToString());
+           WriteCheep(userText.ToString());
         }
     }
 
@@ -87,20 +89,34 @@ class Program
 
     public static void WriteCheep(string cheep)
     {
-        long ts = GetTimestamp();
-        using (StreamWriter writer = File.AppendText("chirp_cli_db.csv"))
+        var records = new List<Cheeps>
         {
-            writer.WriteLine(Environment.UserName + "," + "\"" + cheep + "\"" + "," + ts);
+            new Cheeps {Author = Environment.UserName, Message = cheep, Timestamp = GetTimestamp()}
+        };
+
+        
+        // Append to the file.
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            // Don't write the header again.
+            HasHeaderRecord = false,
+        };
+        using (var stream = File.Open("chirp_cli_db.csv", FileMode.Append))
+        using (var writer = new StreamWriter(stream))
+        using (var csv = new CsvWriter(writer, config))
+        {
+            csv.WriteRecords(records);
         }
-        UserInterface.PrintCheep(Environment.UserName, cheep, ts);
+
+        UserInterface.PrintCheep(Environment.UserName, cheep, GetTimestamp());
     }
 }
 
 class Cheeps
 {
-    public string Author { get; init; }
-    public string Message { get; init; }
-    public long Timestamp { get; init; }
+    public required string Author { get; set; }
+    public required String Message { get; set; }
+    public long Timestamp { get; set; }
     
     public record Cheep(string Author, string Message, long Timestamp)
     {
