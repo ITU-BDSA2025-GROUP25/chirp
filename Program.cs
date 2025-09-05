@@ -1,7 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 namespace Chirp.CLI.Client;
+
+using CsvHelper;
 
 class Program
 {
@@ -31,39 +34,33 @@ class Program
         
         if (key.ToString().Equals("read"))
         {
-            ReadCheeps();
+           ReadCheeps();
         } else if (key.ToString().Equals("cheep"))
         {
-            WriteCheep(userText.ToString());
+           // WriteCheep(userText.ToString());
         }
     }
 
     public static void ReadCheeps()
     {
-        string? cheep = null;
-        try
+        using (var reader = new StreamReader("chirp_cli_db.csv"))
+        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
-            using StreamReader reader = new("chirp_cli_db.csv");
-            // Read and skip the header line
-            reader.ReadLine();
-            
-            while ((cheep = reader.ReadLine()) != null)
+            var records = new List<Cheeps>();
+            csv.Read();
+            csv.ReadHeader();
+            while (csv.Read())
             {
-                // Use regex to parse CSV line properly (handles commas in quotes)
-                string[] parts = ParseCsvLineWithRegex(cheep);
-                
-                if (parts.Length >= 3)
+                var record = new Cheeps
                 {
-                    string username = parts[0];
-                    string message = parts[1];
-                    string timestamp = parts[2];
-                    UserInterface.PrintCheep(username, message, long.Parse(timestamp));
-                }
+                    Author = csv.GetField<string>("Author"),
+                    Message = csv.GetField<string>("Message"),
+                    Timestamp = csv.GetField<long>("Timestamp"),
+                };
+                records.Add(record);
             }
-        }
-        catch (Exception e)
-        {
-            UserInterface.PrintError(e.Message);
+            foreach (var record in records)
+                Console.WriteLine($"{record.Author} @ {DateFormatting(record.Timestamp)}: {record.Message}");
         }
     }
 
@@ -77,6 +74,11 @@ class Program
             .ToArray();
     }
 
+    public static string DateFormatting(long timestamp)
+    {
+        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(timestamp);
+        return dateTimeOffset.LocalDateTime.ToString("dd/MM/yy HH:mm:ss");
+    }
 
     public static long GetTimestamp()
     {
@@ -85,12 +87,22 @@ class Program
 
     public static void WriteCheep(string cheep)
     {
-        long ts = GetTimestamp();
-        string line = Environment.UserName + "," + "\"" + cheep + "\"" + "," + ts;
-        using (StreamWriter writer = File.AppendText("chirp_cli_db.csv"))
-        {
-            writer.WriteLine(line);
-        }
-        UserInterface.PrintCheep(Environment.UserName, cheep, ts);
+        using(StreamWriter writer = File.AppendText("chirp_cli_db.csv"))
+            writer.WriteLine(Environment.UserName + "," + "\"" + cheep + "\"" + "," +  GetTimestamp());
+        
+        Console.WriteLine(Environment.UserName + "," + "\"" + cheep + "\"" + "," +  GetTimestamp());
+    }
+}
+
+class Cheeps
+{
+    public string Author { get; init; }
+    public string Message { get; init; }
+    public long Timestamp { get; init; }
+    
+    public record Cheep(string Author, string Message, long Timestamp)
+    {
+        
+        
     }
 }
