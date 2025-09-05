@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using CsvHelper.Configuration;
+using DocoptNet;
 
 namespace Chirp.CLI.Client;
 
@@ -10,36 +11,38 @@ using CsvHelper;
 
 class Program
 {
+    const string usage = @"Chirp CLI version.
+
+    Usage:
+      chirp read <limit>
+      chirp cheep <message>
+      chirp (-h | --help)
+      chirp --version
+
+    Options:
+      -h --help     Show this screen.
+      --version     Show version.
+    ";
     static void Main(string[] args)
     {
-        StringBuilder key = new();
-        StringBuilder userText = new();
-
-        string space = "";
-        
-        if (args.Length > 0)
+        try
         {
-            key.Append(args[0]);
-        }
-        
+            var arguments = new Docopt().Apply(usage, args, version: "1.0", exit: true);
 
-        for (int i = 1; i < args.Length; i++)
-        {
-            if (i == args.Length - 1)
+            if (arguments["read"].IsTrue)
             {
-                space = "";
+                ReadCheeps();
             }
-            userText.Append(args[i] + space);
-            space = " ";
+            else if (arguments["cheep"].IsTrue)
+            {
+                var message = arguments["message"].ToString();
+                WriteCheep(message);
+            }
         }
-        
-        
-        if (key.ToString().Equals("read"))
+        catch (Exception ex)
         {
-           ReadCheeps();
-        } else if (key.ToString().Equals("cheep"))
-        {
-           WriteCheep(userText.ToString());
+            Console.WriteLine(ex.Message); //general error exception
+            Environment.Exit(1);
         }
     }
 
