@@ -35,7 +35,7 @@ class Program
             }
             else if (arguments["cheep"].IsTrue)
             {
-                var message = arguments["message"].ToString();
+                var message = arguments["<message>"].ToString();
                 WriteCheep(message);
             }
         }
