@@ -1,0 +1,58 @@
+name: Release Chirp!
+
+on:
+  push:
+    tags:
+      - 'v*'   # Trigger only on version tags, e.g., v1.0.0
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build --verbosity normal
+
+      - name: Publish for Linux x64
+        run: dotnet publish -c Release -r linux-x64 --self-contained false -p:PublishSingleFile=true -o ./publish/linux-x64
+
+      - name: Publish for Windows x64
+        run: dotnet publish -c Release -r win-x64 --self-contained false -p:PublishSingleFile=true -o ./publish/win-x64
+
+      - name: Publish for macOS x64
+        run: dotnet publish -c Release -r osx-x64 --self-contained false -p:PublishSingleFile=true -o ./publish/osx-x64
+
+      # Optional ARM builds
+      - name: Publish for Linux ARM64
+        run: dotnet publish -c Release -r linux-arm64 --self-contained false -p:PublishSingleFile=true -o ./publish/linux-arm64
+
+      - name: Publish for macOS ARM64
+        run: dotnet publish -c Release -r osx-arm64 --self-contained false -p:PublishSingleFile=true -o ./publish/osx-arm64
+
+      - name: Zip executables
+        run: |
+          cd publish
+          for dir in */; do
+            zip -j "${dir%/}.zip" "$dir"/*
+          done
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: publish/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
