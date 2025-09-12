@@ -5,7 +5,7 @@ static class UserInterface
     {
         Console.WriteLine($"{username}: {Format(unixSeconds)} - {message}");
     }
-
+    
     public static void PrintError(string message)
     {
         Console.WriteLine(message);

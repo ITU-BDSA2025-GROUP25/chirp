@@ -1,13 +1,7 @@
-﻿using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using CsvHelper.Configuration;
-using DocoptNet;
+﻿using DocoptNet;
+using SimpleDB;
 
 namespace Chirp.CLI.Client;
-
-using CsvHelper;
 
 class Program
 {
@@ -23,6 +17,7 @@ class Program
       -h --help     Show this screen.
       --version     Show version.
     ";
+
     static void Main(string[] args)
     {
         try
@@ -31,58 +26,35 @@ class Program
 
             if (arguments["read"].IsTrue)
             {
-                ReadCheeps();
+                int limit = int.Parse(arguments["<limit>"].ToString());
+                ReadCheeps(limit);
             }
             else if (arguments["cheep"].IsTrue)
             {
-                var message = arguments["message"].ToString();
+                var message = arguments["<message>"].ToString();
                 WriteCheep(message);
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message); //general error exception
+            Console.WriteLine(ex.Message);
             Environment.Exit(1);
         }
     }
 
-    public static void ReadCheeps()
+    public static void ReadCheeps(int limit)
     {
-        using (var reader = new StreamReader("chirp_cli_db.csv"))
-        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-        {
-            var records = new List<Cheeps>();
-            csv.Read();
-            csv.ReadHeader();
-            while (csv.Read())
-            {
-                var record = new Cheeps
-                {
-                    Author = csv.GetField<string>("Author"),
-                    Message = csv.GetField<string>("Message"),
-                    Timestamp = csv.GetField<long>("Timestamp"),
-                };
-                records.Add(record);
-            }
-            foreach (var record in records)
-                Console.WriteLine($"{record.Author} @ {DateFormatting(record.Timestamp)}: {record.Message}");
-        }
-    }
+        IDatabaseRepository<Cheeps> db = new CSVDatabase<Cheeps>("chirp_cli_db.csv");
+        var records = db.Read(limit);
 
-    private static string[] ParseCsvLineWithRegex(string line)
-    {
-        // Regex pattern: split on commas that are NOT inside quotes
-        string pattern = @",(?=(?:[^""]*""[^""]*"")*[^""]*$)";
-        
-        return Regex.Split(line, pattern)
-            .Select(field => field.Trim('"')) // Remove surrounding quotes
-            .ToArray();
+        foreach (var record in records)
+            Console.WriteLine($"{record.Author} @ {DateFormatting(record.Timestamp)}: {record.Message}");
     }
 
     public static string DateFormatting(long timestamp)
     {
-        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(timestamp);
-        return dateTimeOffset.LocalDateTime.ToString("dd/MM/yy HH:mm:ss");
+        var dto = DateTimeOffset.FromUnixTimeSeconds(timestamp);
+        return dto.LocalDateTime.ToString("dd/MM/yy HH:mm:ss");
     }
 
     public static long GetTimestamp()
@@ -92,38 +64,11 @@ class Program
 
     public static void WriteCheep(string cheep)
     {
-        var records = new List<Cheeps>
-        {
-            new Cheeps {Author = Environment.UserName, Message = cheep, Timestamp = GetTimestamp()}
-        };
+        var record = new Cheeps(Environment.UserName, cheep, GetTimestamp());
 
-        
-        // Append to the file.
-        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
-        {
-            // Don't write the header again.
-            HasHeaderRecord = false,
-        };
-        using (var stream = File.Open("chirp_cli_db.csv", FileMode.Append))
-        using (var writer = new StreamWriter(stream))
-        using (var csv = new CsvWriter(writer, config))
-        {
-            csv.WriteRecords(records);
-        }
+        IDatabaseRepository<Cheeps> db = new CSVDatabase<Cheeps>("chirp_cli_db.csv");
+        db.Store(record);
 
-        UserInterface.PrintCheep(Environment.UserName, cheep, GetTimestamp());
-    }
-}
-
-class Cheeps
-{
-    public required string Author { get; set; }
-    public required String Message { get; set; }
-    public long Timestamp { get; set; }
-    
-    public record Cheep(string Author, string Message, long Timestamp)
-    {
-        
-        
+        UserInterface.PrintCheep(Environment.UserName, cheep, record.Timestamp);
     }
 }

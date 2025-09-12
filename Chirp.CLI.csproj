@@ -5,8 +5,10 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    
-    <!-- Add these lines for a global tool -->
+      <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+      <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+      
+      <!-- Add these lines for a global tool -->
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>chirp</ToolCommandName>
   </PropertyGroup>
@@ -14,10 +16,7 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="33.1.0" />
     <PackageReference Include="docopt.net" Version="0.8.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="SimpleDB\SimpleDB.csproj" />
+      <ProjectReference Include="..\SimpleDB\SimpleDB.csproj" />
   </ItemGroup>
 
 </Project>

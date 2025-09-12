@@ -1,7 +1,7 @@
-﻿namespace Chirp.CLI.SimpleDB;
+namespace SimpleDB;
 
-interface IDatabaseRepository<T>
+public interface IDatabaseRepository<T>
 {
-    public IEnumerable<T> Read(int? limit = null);
-    public void Store(T record);
+    IEnumerable<T> Read(int? limit = null);
+    void Store(T record);
 }
