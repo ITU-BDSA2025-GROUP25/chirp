@@ -44,7 +44,7 @@ class Program
 
     public static void ReadCheeps(int limit)
     {
-        IDatabaseRepository<Cheeps> db = new CSVDatabase<Cheeps>("chirp_cli_db.csv");
+        IDatabaseRepository<Cheeps> db = CSVDatabase<Cheeps>.Instance("chirp_cli_db.csv");
         var records = db.Read(limit);
 
         foreach (var record in records)
@@ -66,7 +66,7 @@ class Program
     {
         var record = new Cheeps(Environment.UserName, cheep, GetTimestamp());
 
-        IDatabaseRepository<Cheeps> db = new CSVDatabase<Cheeps>("chirp_cli_db.csv");
+        IDatabaseRepository<Cheeps> db = CSVDatabase<Cheeps>.Instance("chirp_cli_db.csv");
         db.Store(record);
 
         UserInterface.PrintCheep(Environment.UserName, cheep, record.Timestamp);
