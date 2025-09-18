@@ -1,36 +1,18 @@
-name: Issue board automation
-
+name: Label issues
 on:
   issues:
     types:
-      - opened
       - reopened
-      - closed
-
+      - opened
 jobs:
-  manage_project:
+  label_issues:
     runs-on: ubuntu-latest
     permissions:
       issues: write
-      projects: write
     steps:
-      - name: Move new issue to Todo
-        if: github.event.action == 'opened'
-        run: |
-          gh project item-add --project "BDSA2025-GROUP25 Chirp" --owner "${{ github.repository_owner }}" --url "${{ github.event.issue.html_url }}"
+      - run: gh issue edit "$NUMBER" --add-label "$LABELS"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Move reopened issue to In Progress
-        if: github.event.action == 'reopened'
-        run: |
-          gh project item-edit --project "BDSA2025-GROUP25 Chirp" --id "${{ github.event.issue.node_id }}" --field "Status" --single-select-option "In Progress"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Move closed issue to Done
-        if: github.event.action == 'closed'
-        run: |
-          gh project item-edit --project "BDSA2025-GROUP25 Chirp" --id "${{ github.event.issue.node_id }}" --field "Status" --single-select-option "Done"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          LABELS: triage
