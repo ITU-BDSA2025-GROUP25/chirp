@@ -1,5 +1,5 @@
-namespace Chirp.CLI.Client;
-static class UserInterface
+namespace Chirp.CLI;
+public static class UserInterface
 {
     public static void PrintCheep(string username, string message, long unixSeconds)
     {
