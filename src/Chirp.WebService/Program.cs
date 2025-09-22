@@ -13,6 +13,8 @@ builder.Services.AddSingleton<IDatabaseRepository<Cheeps>>(cheepsDb);
 
 var app = builder.Build();
 
+// Root route
+app.MapGet("/", () => "Chirp Web Service is running. Use /cheeps (GET) and /cheep (POST) endpoints.");
 
 // Get all cheeps
 app.MapGet("/cheeps", GetCheeps);

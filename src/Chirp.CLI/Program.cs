@@ -1,5 +1,4 @@
 ﻿using DocoptNet;
-using SimpleDB;
 
 namespace Chirp.CLI.Client;
 
@@ -17,6 +16,11 @@ class Program
       -h --help     Show this screen.
       --version     Show version.
     ";
+
+    private static readonly HttpClient client = new HttpClient
+    {
+        BaseAddress = new Uri("http://localhost:5143")
+    };
 
     static void Main(string[] args)
     {
@@ -44,11 +48,45 @@ class Program
 
     public static void ReadCheeps(int limit)
     {
-        IDatabaseRepository<Cheeps> db = CSVDatabase<Cheeps>.Instance("chirp_cli_db.csv");
-        var records = db.Read(limit);
+        try
+        {
+            var response = client.GetAsync($"cheeps?limit={limit}")
+                                 .GetAwaiter().GetResult();
+            response.EnsureSuccessStatusCode();
 
-        foreach (var record in records)
+            var cheeps = response.Content.ReadFromJsonAsync<List<CheepDTO>>()
+                                         .GetAwaiter().GetResult();
+
+            foreach (var record in cheeps)
+                Console.WriteLine($"{record.Author} @ {DateFormatting(record.Timestamp)}: {record.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching cheeps: {ex.Message}");
+        }
+    }
+
+    public static void WriteCheep(string cheep)
+    {
+        var record = new CheepDTO
+        {
+            Author = Environment.UserName,
+            Message = cheep,
+            Timestamp = GetTimestamp()
+        };
+
+        try
+        {
+            var response = client.PostAsJsonAsync("cheep", record)
+                                 .GetAwaiter().GetResult();
+            response.EnsureSuccessStatusCode();
+
             Console.WriteLine($"{record.Author} @ {DateFormatting(record.Timestamp)}: {record.Message}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error posting cheep: {ex.Message}");
+        }
     }
 
     public static string DateFormatting(long timestamp)
@@ -62,13 +100,11 @@ class Program
         return DateTimeOffset.Now.ToUnixTimeSeconds();
     }
 
-    public static void WriteCheep(string cheep)
+    // DTO for HTTP communication
+    public class CheepDTO
     {
-        var record = new Cheeps(Environment.UserName, cheep, GetTimestamp());
-
-        IDatabaseRepository<Cheeps> db = CSVDatabase<Cheeps>.Instance("chirp_cli_db.csv");
-        db.Store(record);
-
-        UserInterface.PrintCheep(Environment.UserName, cheep, record.Timestamp);
+        public string Author { get; set; }
+        public string Message { get; set; }
+        public long Timestamp { get; set; }
     }
 }

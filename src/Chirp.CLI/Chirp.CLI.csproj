@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,10 +7,6 @@
     <Nullable>enable</Nullable>
       <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
       <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-      
-      <!-- Add these lines for a global tool -->
-    <PackAsTool>true</PackAsTool>
-    <ToolCommandName>chirp</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
