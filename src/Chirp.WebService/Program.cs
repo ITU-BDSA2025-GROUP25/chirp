@@ -4,7 +4,8 @@ using SimpleDB;
 var builder = WebApplication.CreateBuilder(args);
 
 // Path to CSV file
-const string CsvPath = "chirp_cli_db.csv";
+var home = Environment.GetEnvironmentVariable("HOME") ?? AppContext.BaseDirectory;
+var CsvPath = Path.Combine(home, "chirp_cli_db.csv");
 
 if (!File.Exists(CsvPath))
     File.WriteAllText(CsvPath, "Author,Message,Timestamp\n"); // start empty
