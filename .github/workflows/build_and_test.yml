@@ -26,4 +26,4 @@ jobs:
         run: dotnet build src/Chirp.CLI/ --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish src/Chirp.Webservice/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish src/Chirp.WebService/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
