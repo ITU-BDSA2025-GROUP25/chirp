@@ -19,7 +19,7 @@ class Program
 
     private static readonly HttpClient client = new HttpClient
     {
-        BaseAddress = new Uri("https://bdsagroup25chirpremotedb.azurewebsites.net")
+        BaseAddress = new Uri("bdsagroup25chirpremoted-hbhbemh9ceb7a5eq.norwayeast-01.azurewebsites.net")
     };
 
     static void Main(string[] args)
