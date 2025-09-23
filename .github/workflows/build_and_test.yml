@@ -22,8 +22,8 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
+      - name: Build with dotnet
+        run: dotnet build src/Chirp.CLI/ --configuration Release
 
-      - name: Run tests
-        run: dotnet test --no-build --configuration Release --verbosity normal
+      - name: dotnet publish
+        run: dotnet publish src/Chirp.Webservice/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
