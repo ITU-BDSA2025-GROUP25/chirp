@@ -27,7 +27,7 @@ app.MapGet("/cheeps", GetCheeps);
 app.MapPost("/cheep", PostCheep);
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
-app.Urls.Add($"http://*:{port}");
+builder.WebHost.UseUrls($"http://*:{port}");
 
 //Run
 app.Run();
