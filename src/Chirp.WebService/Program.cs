@@ -4,7 +4,10 @@ using SimpleDB;
 var builder = WebApplication.CreateBuilder(args);
 
 // Path to CSV file
-const string CsvPath = "../Chirp.CLI/chirp_cli_db.csv";
+const string CsvPath = "chirp_cli_db.csv";
+
+if (!File.Exists(CsvPath))
+    File.WriteAllText(CsvPath, "Author,Message,Timestamp\n"); // start empty
 
 // Register the database for our endpoints
 var cheepsDb = CSVDatabase<Cheeps>.Instance(CsvPath);
@@ -21,6 +24,9 @@ app.MapGet("/cheeps", GetCheeps);
 
 // Post a new cheep
 app.MapPost("/cheep", PostCheep);
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+app.Urls.Add($"http://*:{port}");
 
 //Run
 app.Run();
