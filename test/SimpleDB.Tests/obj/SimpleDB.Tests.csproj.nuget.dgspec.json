@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ascan\\Desktop\\Github\\chirp\\test\\SimpleDB.Tests\\SimpleDB.Tests.csproj": {}
+    "/Users/joachimblom-hanssen/Documents/GitHub/chirp/test/SimpleDB.Tests/SimpleDB.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ascan\\Desktop\\Github\\chirp\\src\\SimpleDB\\SimpleDB.csproj": {
+    "/Users/joachimblom-hanssen/Documents/GitHub/chirp/src/SimpleDB/SimpleDB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ascan\\Desktop\\Github\\chirp\\src\\SimpleDB\\SimpleDB.csproj",
+        "projectUniqueName": "/Users/joachimblom-hanssen/Documents/GitHub/chirp/src/SimpleDB/SimpleDB.csproj",
         "projectName": "SimpleDB",
-        "projectPath": "C:\\Users\\ascan\\Desktop\\Github\\chirp\\src\\SimpleDB\\SimpleDB.csproj",
-        "packagesPath": "C:\\Users\\ascan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ascan\\Desktop\\Github\\chirp\\src\\SimpleDB\\obj\\",
+        "projectPath": "/Users/joachimblom-hanssen/Documents/GitHub/chirp/src/SimpleDB/SimpleDB.csproj",
+        "packagesPath": "/Users/joachimblom-hanssen/.nuget/packages/",
+        "outputPath": "/Users/joachimblom-hanssen/Documents/GitHub/chirp/src/SimpleDB/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ascan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/joachimblom-hanssen/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -71,40 +65,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\ascan\\Desktop\\Github\\chirp\\test\\SimpleDB.Tests\\SimpleDB.Tests.csproj": {
+    "/Users/joachimblom-hanssen/Documents/GitHub/chirp/test/SimpleDB.Tests/SimpleDB.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ascan\\Desktop\\Github\\chirp\\test\\SimpleDB.Tests\\SimpleDB.Tests.csproj",
+        "projectUniqueName": "/Users/joachimblom-hanssen/Documents/GitHub/chirp/test/SimpleDB.Tests/SimpleDB.Tests.csproj",
         "projectName": "SimpleDB.Tests",
-        "projectPath": "C:\\Users\\ascan\\Desktop\\Github\\chirp\\test\\SimpleDB.Tests\\SimpleDB.Tests.csproj",
-        "packagesPath": "C:\\Users\\ascan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ascan\\Desktop\\Github\\chirp\\test\\SimpleDB.Tests\\obj\\",
+        "projectPath": "/Users/joachimblom-hanssen/Documents/GitHub/chirp/test/SimpleDB.Tests/SimpleDB.Tests.csproj",
+        "packagesPath": "/Users/joachimblom-hanssen/.nuget/packages/",
+        "outputPath": "/Users/joachimblom-hanssen/Documents/GitHub/chirp/test/SimpleDB.Tests/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ascan\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/joachimblom-hanssen/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\ascan\\Desktop\\Github\\chirp\\src\\SimpleDB\\SimpleDB.csproj": {
-                "projectPath": "C:\\Users\\ascan\\Desktop\\Github\\chirp\\src\\SimpleDB\\SimpleDB.csproj"
+              "/Users/joachimblom-hanssen/Documents/GitHub/chirp/src/SimpleDB/SimpleDB.csproj": {
+                "projectPath": "/Users/joachimblom-hanssen/Documents/GitHub/chirp/src/SimpleDB/SimpleDB.csproj"
               }
             }
           }
@@ -158,7 +146,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
