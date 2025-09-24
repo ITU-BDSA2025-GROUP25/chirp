@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Chirp.CLI.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e265b6d2ed6b4da420b36f0dc4f601d6a27c4002")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b669201d232eb96ef23b5b1a0f06b86bec2808e9")]
 [assembly: System.Reflection.AssemblyProductAttribute("Chirp.CLI.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Chirp.CLI.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
