@@ -1109,52 +1109,39 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
-    "/Users/joachimblom-hanssen/.nuget/packages/": {}
-=======
-    "/Users/hedinmortensen/.nuget/packages/": {}
->>>>>>> 489158ee5b74de2f79f39763b42b6a0e967a5abe
+    "C:\\Users\\ascan\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-      "projectUniqueName": "/Users/joachimblom-hanssen/Documents/GitHub/chirp/test/Chirp.CLI.Tests/Chirp.CLI.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\ascan\\Desktop\\Github\\chirp\\test\\Chirp.CLI.Tests\\Chirp.CLI.Tests.csproj",
       "projectName": "Chirp.CLI.Tests",
-      "projectPath": "/Users/joachimblom-hanssen/Documents/GitHub/chirp/test/Chirp.CLI.Tests/Chirp.CLI.Tests.csproj",
-      "packagesPath": "/Users/joachimblom-hanssen/.nuget/packages/",
-      "outputPath": "/Users/joachimblom-hanssen/Documents/GitHub/chirp/test/Chirp.CLI.Tests/obj/",
+      "projectPath": "C:\\Users\\ascan\\Desktop\\Github\\chirp\\test\\Chirp.CLI.Tests\\Chirp.CLI.Tests.csproj",
+      "packagesPath": "C:\\Users\\ascan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ascan\\Desktop\\Github\\chirp\\test\\Chirp.CLI.Tests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/joachimblom-hanssen/.nuget/NuGet/NuGet.Config"
-=======
-      "projectUniqueName": "/Users/hedinmortensen/Desktop/chirp/test/Chirp.CLI.Tests/Chirp.CLI.Tests.csproj",
-      "projectName": "Chirp.CLI.Tests",
-      "projectPath": "/Users/hedinmortensen/Desktop/chirp/test/Chirp.CLI.Tests/Chirp.CLI.Tests.csproj",
-      "packagesPath": "/Users/hedinmortensen/.nuget/packages/",
-      "outputPath": "/Users/hedinmortensen/Desktop/chirp/test/Chirp.CLI.Tests/obj/",
-      "projectStyle": "PackageReference",
-      "configFilePaths": [
-        "/Users/hedinmortensen/.nuget/NuGet/NuGet.Config"
->>>>>>> 489158ee5b74de2f79f39763b42b6a0e967a5abe
+        "C:\\Users\\ascan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-<<<<<<< HEAD
-            "/Users/joachimblom-hanssen/Documents/GitHub/chirp/src/Chirp.CLI/Chirp.CLI.csproj": {
-              "projectPath": "/Users/joachimblom-hanssen/Documents/GitHub/chirp/src/Chirp.CLI/Chirp.CLI.csproj"
-=======
-            "/Users/hedinmortensen/Desktop/chirp/src/Chirp.CLI/Chirp.CLI.csproj": {
-              "projectPath": "/Users/hedinmortensen/Desktop/chirp/src/Chirp.CLI/Chirp.CLI.csproj"
->>>>>>> 489158ee5b74de2f79f39763b42b6a0e967a5abe
+            "C:\\Users\\ascan\\Desktop\\Github\\chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj": {
+              "projectPath": "C:\\Users\\ascan\\Desktop\\Github\\chirp\\src\\Chirp.CLI\\Chirp.CLI.csproj"
             }
           }
         }
@@ -1208,12 +1195,16 @@
             "privateAssets": "all"
           }
         },
-<<<<<<< HEAD
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.304/PortableRuntimeIdentifierGraph.json"
-=======
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
->>>>>>> 489158ee5b74de2f79f39763b42b6a0e967a5abe
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\ascan\\Desktop\\Github\\chirp\\test\\Chirp.CLI.Tests\\obj\\project.nuget.cache : '<' is an invalid start of a property name. Expected a '\"'. Path: $ | LineNumber: 2 | BytePositionInLine: 0."
+    }
+  ]
 }
