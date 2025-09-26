@@ -52,3 +52,80 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Rider / IntelliJ
+.idea/
+*.sln.DotSettings.user
+*.userprefs
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build artifacts
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+*.db
+*.db-shm
+*.db-wal
+
+# NuGet
+*.nupkg
+*.nuget.props
+*.nuget.targets
+*.nuget.cache
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Test results
+TestResult*/
+*.trx
+*.coverage
+*.coveragexml
+
+# Generated files
+*.AssemblyInfo.cs
+*.GeneratedMSBuildEditorConfig.editorconfig
+*.assets.json
+*.dg
+*.csprojAssemblyReference.cache
+
+# More generated build/test artifacts
+*.sourcelink.json
+FileListAbsolute.txt
+*.runtimeconfig.json
+*.runtimeconfig.dev.json
+
+# Rider/MSBuild project metadata
+*.rider.project.*
+*.restore.info
+
+# NuGet restore outputs
+project.assets.json
+project.nuget.cache
+project.packagespec.json
+*.nuget.g.props
+*.nuget.g.targets
+*.dgspec.json
+
+# Rider / JetBrains extra
+*.iml
+*.ipr
+*.iws
+
+# OS-specific
+.DS_Store
+Thumbs.db
