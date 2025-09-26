@@ -24,7 +24,7 @@ public class DBFacade
 
         while (reader.Read())
         {
-            string author = reader.GetString(0);
+            string author = reader.GetString(3);
             string message = reader.GetString(1);
 
             // pub_date is stored as Unix timestamp (int/long)
@@ -58,7 +58,7 @@ public class DBFacade
         using var reader = command.ExecuteReader();
         while (reader.Read())
         {
-            string author = reader.GetString(0);
+            string author = reader.GetString(3);
             string message = reader.GetString(1);
             long pubDateUnix = reader.GetInt64(2);
             string timestamp = UnixTimeStampToDateTimeString(pubDateUnix);
