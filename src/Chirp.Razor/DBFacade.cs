@@ -2,7 +2,11 @@
 
 public class DBFacade
 {
-    private const string ConnectionString = "Data Source=tmp/chirp.db";
+	    private static readonly string DbPath =
+        Environment.GetEnvironmentVariable("CHIRPDBPATH")
+        ?? Path.Combine("tmp", "chirp.db");
+
+    	private static readonly string ConnectionString = $"Data Source={DbPath}";
 
     public static List<CheepViewModel> Cheeps(int limit, int offset)
     {
