@@ -4,7 +4,7 @@ public class DBFacade
 {
     private const string ConnectionString = "Data Source=tmp/chirp.db";
 
-    public static List<CheepViewModel> Cheeps()
+    public static List<CheepViewModel> Cheeps(int limit, int offset)
     {
         var cheeps = new List<CheepViewModel>();
 
@@ -16,12 +16,15 @@ public class DBFacade
             SELECT m.message_id, m.text, m.pub_date, u.username
             FROM message m
             JOIN user u ON m.author_id = u.user_id
-            ORDER BY m.pub_date DESC;
+            ORDER BY m.pub_date DESC
+            Limit @Limit OFFSET @Offset;
         ";
 
         using var command = new SqliteCommand(sql, connection);
-        using var reader = command.ExecuteReader();
+		command.Parameters.AddWithValue("@Limit", limit);
+        command.Parameters.AddWithValue("@Offset", offset);
 
+        using var reader = command.ExecuteReader();
         while (reader.Read())
         {
             string author = reader.GetString(3);
@@ -37,7 +40,7 @@ public class DBFacade
         return cheeps;
     }
 
-    public static List<CheepViewModel> CheepsByAuthor(string authorName)
+    public static List<CheepViewModel> CheepsByAuthor(string authorName, int limit, int offset)
     {
         var cheeps = new List<CheepViewModel>();
 
@@ -49,11 +52,14 @@ public class DBFacade
             FROM message m
             JOIN user u ON m.author_id = u.user_id
             WHERE u.username =  @Author
-            ORDER BY m.pub_date DESC;
+            ORDER BY m.pub_date DESC
+            LIMIT @Limit OFFSET @Offset;
         ";
 
         using var command = new SqliteCommand(sql, connection);
         command.Parameters.AddWithValue("@Author", authorName);
+		command.Parameters.AddWithValue("@Limit", limit);
+        command.Parameters.AddWithValue("@Offset", offset);
 
         using var reader = command.ExecuteReader();
         while (reader.Read())

@@ -13,9 +13,11 @@ public class PublicModel : PageModel
         _service = service;
     }
 
-    public ActionResult OnGet()
-    {
-        Cheeps = _service.GetCheeps();
-        return Page();
-    }
+	public ActionResult OnGet([FromQuery] int page = 1)
+	{
+    if (page < 1) page = 1; // ensure user doesnt use 0 or negative numbers as page
+
+    Cheeps = _service.GetCheeps(page);
+    return Page();
+	}
 }
