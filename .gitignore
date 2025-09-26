@@ -103,6 +103,24 @@ TestResult*/
 *.dg
 *.csprojAssemblyReference.cache
 
+# More generated build/test artifacts
+*.sourcelink.json
+FileListAbsolute.txt
+*.runtimeconfig.json
+*.runtimeconfig.dev.json
+
+# Rider/MSBuild project metadata
+*.rider.project.*
+*.restore.info
+
+# NuGet restore outputs
+project.assets.json
+project.nuget.cache
+project.packagespec.json
+*.nuget.g.props
+*.nuget.g.targets
+*.dgspec.json
+
 # Rider / JetBrains extra
 *.iml
 *.ipr
