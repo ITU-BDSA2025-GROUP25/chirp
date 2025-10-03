@@ -21,3 +21,11 @@ public class Cheep
 
     public Author author { get; set; }
 }
+
+public class CheepDTO
+{
+    public string text { get; set; }
+    
+    public Author author { get; set; }
+    
+}
