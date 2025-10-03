@@ -1,4 +1,6 @@
-﻿namespace Chirp.Razor;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Chirp.Razor;
 
 public interface ICheepRepository
 {
@@ -9,18 +11,36 @@ public interface ICheepRepository
 
 public class CheepRepository : ICheepRepository
 {
-    public Task CreateCheep(Cheep newCheep)
+    private readonly ChirpDbContext _dbContext;
+
+    public CheepRepository(ChirpDbContext dbContext)
     {
-        throw new NotImplementedException();
+        _dbContext = dbContext;
+    }
+    public async Task CreateCheep(Cheep newCheep)
+    {
+        Cheep cheep = new() {text = newCheep.text, author = newCheep.author};
+        var result = await _dbContext.cheeps.AddAsync(cheep);
+        
+        await _dbContext.SaveChangesAsync();
     }
 
-    public Task<List<Cheep>> ReadCheep(String authorName)
+    public async Task<List<Cheep>> ReadCheep(String authorName)
     {
-        throw new NotImplementedException();
+        var query = from cheep in _dbContext.cheeps
+            where cheep.author.name == authorName
+            select cheep;
+
+        var result = await query.ToListAsync();
+        return result;
+        
     }
 
-    public Task UpdateCheep(Cheep alteredCheep)
+    public async Task UpdateCheep(Cheep alteredCheep)
     {
-        throw new NotImplementedException();
+        Cheep cheep = new() {text = alteredCheep.text, author = alteredCheep.author};
+        var result = await _dbContext.cheeps.AddAsync(cheep);
+        
+        await _dbContext.SaveChangesAsync(); 
     }
 }
