@@ -4,7 +4,7 @@ public class DBFacade
 {
 	    private static readonly string DbPath =
         Environment.GetEnvironmentVariable("CHIRPDBPATH")
-        ?? Path.Combine("tmp", "chirp.db");
+        ?? Path.Combine(AppContext.BaseDirectory, "tmp", "chirp.db");
 
     	private static readonly string ConnectionString = $"Data Source={DbPath}";
 
