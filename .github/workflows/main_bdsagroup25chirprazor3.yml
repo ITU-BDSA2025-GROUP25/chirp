@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - bdsagroup25chirprazor
+name: Build and deploy ASP.Net Core app to Azure Web App - bdsagroup25chirprazor3
 
 on:
   push:
@@ -24,10 +24,10 @@ jobs:
           dotnet-version: '9.x'
 
       - name: Build with dotnet
-        run: dotnet build src/Chirp.Razor/ --configuration Release
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish src/Chirp.Razor/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -36,7 +36,7 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     permissions:
       id-token: write #This is required for requesting the JWT
@@ -47,20 +47,19 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-
+      
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_588E433E67D44496BB0DFC67FD9E91A7 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A804157F69BC4531A202319502F1B442 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_EC1F83B211C346B9869B08DB492F6A4D }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E0484325EFA0429AA3B293CA85BFC314 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C00A67F4330B4B66A41F7AE5BADA739A }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_50044BCCDAB24CCA8D3BC4D7D8901243 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'bdsagroup25chirprazor'
+          app-name: 'bdsagroup25chirprazor3'
           slot-name: 'Production'
           package: .
-
           
