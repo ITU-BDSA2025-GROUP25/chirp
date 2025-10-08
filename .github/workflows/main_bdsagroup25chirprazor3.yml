@@ -26,15 +26,12 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore src/Chirp.Razor/Chirp.Razor.csproj
 
-      /Dotnet build
       - name: Build with dotnet
         run: dotnet build src/Chirp.Razor/Chirp.Razor.csproj -c Release
         
-        //Unit tests
       - name: Run unit tests
         run: dotnet test test/Chirp.Razor.Tests/Chirp.Razor.Tests.csproj --configuration Release --no-build --verbosity normal
     
-      //Dotnet publish
       - name: dotnet publish
         run: dotnet publish src/Chirp.Razor/Chirp.Razor.csproj -c Release -o ./publish
 
