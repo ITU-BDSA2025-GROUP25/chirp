@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
-builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+builder.Services.AddSingleton<ICheepRepository, CheepRepository>();
 
 // Load database connection 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
