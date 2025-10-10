@@ -20,7 +20,7 @@ public class CheepRepository : ICheepRepository
     }
     public async Task CreateCheep(CheepDTO newCheep)
     {
-        Cheep cheep = new() {text = newCheep.text, author = newCheep.author};
+        Cheep cheep = new() {Message = newCheep.Message, Author = newCheep.Author};
         var result = await _dbContext.cheeps.AddAsync(cheep);
         
         await _dbContext.SaveChangesAsync();
@@ -33,7 +33,7 @@ public class CheepRepository : ICheepRepository
     public async Task<List<CheepDTO>> ReadCheep(int limit, int offset)
     {
         var query = from cheep in _dbContext.cheeps
-            select new CheepDTO(){text = cheep.text, author = cheep.author,};
+            select new CheepDTO(){Message = cheep.Message, Author = cheep.Author,};
 
         var result = await query.ToListAsync();
         return result;
@@ -42,8 +42,8 @@ public class CheepRepository : ICheepRepository
     public async Task<List<CheepDTO>> ReadCheepByAuthor(String authorName, int page, int limit)
     {
         var query = from cheep in _dbContext.cheeps
-            where cheep.author.name == authorName
-            select new CheepDTO(){text = cheep.text, author = cheep.author,};
+            where cheep.Author.name == authorName
+            select new CheepDTO(){Message = cheep.Message, Author = cheep.Author,};
 
         var result = await query.ToListAsync();
         return result;
@@ -52,7 +52,7 @@ public class CheepRepository : ICheepRepository
 
     public async Task UpdateCheep(CheepDTO alteredCheep)
     {
-        Cheep cheep = new() {text = alteredCheep.text, author = alteredCheep.author};
+        Cheep cheep = new() {Message = alteredCheep.Message, Author = alteredCheep.Author};
         var result = await _dbContext.cheeps.AddAsync(cheep);
         
         await _dbContext.SaveChangesAsync(); 

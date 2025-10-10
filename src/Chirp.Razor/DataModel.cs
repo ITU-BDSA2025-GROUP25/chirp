@@ -15,17 +15,19 @@ public class Cheep
 {
     public int CheepId { get; set; }
     
-    public string text { get; set; }
+    public string Message { get; set; }
 
     public DateTime timeStamp { get; set; }
 
-    public Author author { get; set; }
+    public Author Author { get; set; }
 }
 
 public class CheepDTO
 {
-    public string text { get; set; }
+    public string Message { get; set; }
     
-    public Author author { get; set; }
+    public Author Author { get; set; }
+    
+    public string Timestamp { get; set; }
     
 }
