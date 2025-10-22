@@ -27,28 +27,50 @@ public class CheepRepository : ICheepRepository
     }
 
     
-    
+   //Reads all cheeps based on current page and limit of 32
+	public async Task<List<CheepDTO>> ReadCheep(int page, int limit)
+	{
+    int offset = (page - 1) * limit;
 
-    //Needs to be refactored: Read all cheeps
-    public async Task<List<CheepDTO>> ReadCheep(int limit, int offset)
-    {
-        var query = from cheep in _dbContext.Cheeps
-            select new CheepDTO(){Message = cheep.Text, Author = cheep.Author,};
+    var query = from cheep in _dbContext.Cheeps
+        orderby cheep.TimeStamp descending
+        select new CheepDTO()
+        {
+            Message = cheep.Text,
+            Author = cheep.Author,
+            Timestamp = cheep.TimeStamp.ToString("g")
+        };
 
-        var result = await query.ToListAsync();
-        return result;
-        
-    }
-    public async Task<List<CheepDTO>> ReadCheepByAuthor(String authorName, int page, int limit)
-    {
-        var query = from cheep in _dbContext.Cheeps
-            where cheep.Author.Name == authorName
-            select new CheepDTO(){Message = cheep.Text, Author = cheep.Author,};
+    var result = await query
+        .Skip(offset)
+        .Take(limit)
+        .ToListAsync();
 
-        var result = await query.ToListAsync();
-        return result;
-        
-    }
+    return result;
+	}
+
+	//sorts the messages by author and page number for example http://localhost:5273/Jacqualine Gilcoine?page=2 
+    public async Task<List<CheepDTO>> ReadCheepByAuthor(string authorName, int page, int limit)
+{
+    int offset = (page - 1) * limit;
+
+    var query = from cheep in _dbContext.Cheeps
+        where cheep.Author.Name == authorName
+        orderby cheep.TimeStamp descending
+        select new CheepDTO()
+        {
+            Message = cheep.Text,
+            Author = cheep.Author,
+            Timestamp = cheep.TimeStamp.ToString("g")
+        };
+
+    var result = await query
+        .Skip(offset)
+        .Take(limit)
+        .ToListAsync();
+
+    return result;
+}
 
     public async Task UpdateCheep(CheepDTO alteredCheep)
     {
