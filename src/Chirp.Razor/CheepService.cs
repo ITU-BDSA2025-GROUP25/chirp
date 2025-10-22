@@ -1,16 +1,25 @@
 using System.Collections.Generic;
+using Chirp.Razor;
 
-public record CheepViewModel(string Author, string Message, string Timestamp);
+//public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
 {
-    List<CheepViewModel> GetCheeps(int page = 1);
-    List<CheepViewModel> GetCheepsFromAuthor(string author, int page = 1);
+    Task<List<CheepDTO>> GetCheeps(int page = 1);
+    Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int page = 1);
 }
 
 public class CheepService : ICheepService
 {
+    private readonly ICheepRepository _repository;
+    
     private const int PageSize = 32;
+
+    public CheepService(ICheepRepository repository)
+    {
+        _repository = repository;
+    }
+    
 
     private static int CalculateOffset(int page)
     {
@@ -18,13 +27,13 @@ public class CheepService : ICheepService
         return (page - 1) * PageSize;
     }
 
-    public List<CheepViewModel> GetCheeps(int page = 1)
+    public async Task <List<CheepDTO>> GetCheeps(int page = 1)
     {
-        return DBFacade.Cheeps(PageSize, CalculateOffset(page));
+        return await _repository.ReadCheep(page, PageSize);
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page = 1)
+    public async Task <List<CheepDTO>> GetCheepsFromAuthor(String author ,int page = 1)
     {
-        return DBFacade.CheepsByAuthor(author, PageSize, CalculateOffset(page));
+        return await _repository.ReadCheepByAuthor(author, page, PageSize);
     }
 }

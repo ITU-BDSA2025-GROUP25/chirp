@@ -5,7 +5,8 @@ namespace Chirp.Razor;
 public interface ICheepRepository
 {
     Task CreateCheep(CheepDTO newCheep);
-    Task<List<CheepDTO>> ReadCheep(String authorName);
+    Task<List<CheepDTO>> ReadCheep(int  page, int limit);
+    Task<List<CheepDTO>> ReadCheepByAuthor(String authorName, int page, int limit);
     Task UpdateCheep(CheepDTO alteredCheep);
 }
 
@@ -19,17 +20,30 @@ public class CheepRepository : ICheepRepository
     }
     public async Task CreateCheep(CheepDTO newCheep)
     {
-        Cheep cheep = new() {text = newCheep.text, author = newCheep.author};
-        var result = await _dbContext.cheeps.AddAsync(cheep);
+        Cheep cheep = new() {Text = newCheep.Message, Author = newCheep.Author};
+        var result = await _dbContext.Cheeps.AddAsync(cheep);
         
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<CheepDTO>> ReadCheep(String authorName)
+    
+    
+
+    //Needs to be refactored: Read all cheeps
+    public async Task<List<CheepDTO>> ReadCheep(int limit, int offset)
     {
-        var query = from cheep in _dbContext.cheeps
-            where cheep.author.name == authorName
-            select new CheepDTO(){text = cheep.text, author = cheep.author,};
+        var query = from cheep in _dbContext.Cheeps
+            select new CheepDTO(){Message = cheep.Text, Author = cheep.Author,};
+
+        var result = await query.ToListAsync();
+        return result;
+        
+    }
+    public async Task<List<CheepDTO>> ReadCheepByAuthor(String authorName, int page, int limit)
+    {
+        var query = from cheep in _dbContext.Cheeps
+            where cheep.Author.Name == authorName
+            select new CheepDTO(){Message = cheep.Text, Author = cheep.Author,};
 
         var result = await query.ToListAsync();
         return result;
@@ -38,8 +52,8 @@ public class CheepRepository : ICheepRepository
 
     public async Task UpdateCheep(CheepDTO alteredCheep)
     {
-        Cheep cheep = new() {text = alteredCheep.text, author = alteredCheep.author};
-        var result = await _dbContext.cheeps.AddAsync(cheep);
+        Cheep cheep = new() {Text = alteredCheep.Message, Author = alteredCheep.Author};
+        var result = await _dbContext.Cheeps.AddAsync(cheep);
         
         await _dbContext.SaveChangesAsync(); 
     }
