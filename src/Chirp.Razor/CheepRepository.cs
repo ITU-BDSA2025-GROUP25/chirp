@@ -13,16 +13,35 @@ public interface ICheepRepository
 public class CheepRepository : ICheepRepository
 {
     private readonly ChirpDbContext _dbContext;
+    private readonly IAuthorRepository _authorRepository;
 
-    public CheepRepository(ChirpDbContext dbContext)
+    public CheepRepository(ChirpDbContext dbContext, IAuthorRepository authorRepository)
     {
         _dbContext = dbContext;
+        _authorRepository = authorRepository;
     }
+
     public async Task CreateCheep(CheepDTO newCheep)
     {
-        Cheep cheep = new() {Text = newCheep.Message, Author = newCheep.Author};
-        var result = await _dbContext.Cheeps.AddAsync(cheep);
-        
+        // Find or create author
+        var author = await _authorRepository.FindByName(newCheep.Author.Name);
+        if (author == null)
+        {
+            author = await _authorRepository.CreateAuthor(new Author
+            {
+                Name = newCheep.Author.Name,
+                Email = newCheep.Author.Email
+            });
+        }
+
+        var cheep = new Cheep
+        {
+            Text = newCheep.Message,
+            Author = author,
+            TimeStamp = DateTime.Now
+        };
+
+        _dbContext.Cheeps.Add(cheep);
         await _dbContext.SaveChangesAsync();
     }
 
