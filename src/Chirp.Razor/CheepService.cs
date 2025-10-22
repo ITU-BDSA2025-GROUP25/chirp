@@ -13,6 +13,7 @@ public class CheepService : ICheepService
 {
     private readonly ICheepRepository _repository;
     
+	//32 messages per page
     private const int PageSize = 32;
 
     public CheepService(ICheepRepository repository)
@@ -20,13 +21,6 @@ public class CheepService : ICheepService
         _repository = repository;
     }
     
-
-    private static int CalculateOffset(int page)
-    {
-        if (page < 1) page = 1;
-        return (page - 1) * PageSize;
-    }
-
     public async Task <List<CheepDTO>> GetCheeps(int page = 1)
     {
         return await _repository.ReadCheep(page, PageSize);
