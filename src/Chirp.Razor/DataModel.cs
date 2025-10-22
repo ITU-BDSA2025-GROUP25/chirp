@@ -8,7 +8,7 @@ public class Author
     
     public required string Email { get; set; }
     
-    public required ICollection<Cheep> Cheeps { get; set; }
+    public List<Cheep> Cheeps { get; set; } = new(); // Default empty list
 }
 
 public class Cheep
