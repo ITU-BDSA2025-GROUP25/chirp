@@ -4,32 +4,32 @@ public class Author
 {
     public int AuthorId { get; set; }
     
-    public string Name { get; set; }
+    public required string Name { get; set; }
     
-    public string Email { get; set; }
+    public required string Email { get; set; }
     
-    public ICollection<Cheep> Cheeps { get; set; }
+    public required ICollection<Cheep> Cheeps { get; set; }
 }
 
 public class Cheep
 {
     public int CheepId { get; set; }
     
-    public string Text { get; set; }
+    public required string Text { get; set; }
 
     public DateTime TimeStamp { get; set; }
 
-    public Author Author { get; set; }
+    public required Author Author { get; set; }
     
     public int AuthorId { get; set; }
 }
 
 public class CheepDTO
 {
-    public string Message { get; set; }
+    public required string Message { get; set; }
     
-    public Author Author { get; set; }
+    public required Author Author { get; set; }
     
-    public string Timestamp { get; set; }
+    public required string Timestamp { get; set; }
     
 }
