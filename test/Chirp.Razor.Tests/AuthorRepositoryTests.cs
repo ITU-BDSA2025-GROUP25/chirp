@@ -37,7 +37,7 @@ public class AuthorRepositoryTests
     }
 
     [Fact]
-    public async Task FindByName_ReturnsNull_WhenAuthorDoesNotExist()
+    public async Task FindByName()
     {
         // Arrange
         using var connection = new SqliteConnection("Filename=:memory:");

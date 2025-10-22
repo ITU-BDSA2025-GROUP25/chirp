@@ -34,7 +34,7 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<Author> CreateAuthor(Author newAuthor)
     {
-        // Avoid duplicate authors
+        // check if author exists to avoid duplicate 
         var existing = await _dbContext.Authors
             .FirstOrDefaultAsync(a => a.Email == newAuthor.Email);
 
