@@ -20,8 +20,8 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<ChirpDbContext>();
+    var context = scope.ServiceProvider.GetRequiredService<ChirpDbContext>();
+    context.Database.Migrate();  // Apply migrations automatically
     DbInitializer.SeedDatabase(context);
 }
 
