@@ -24,7 +24,7 @@ jobs:
           dotnet-version: '9.0.x'
           
       - name: Restore dependencies
-        run: dotnet restore src/Chirp.Razor/Chirp.Razor.csproj
+        run: dotnet restore src/Chirp.Web/Chirp.Web.csproj
 
       - name: Build with dotnet
         run: dotnet build src/Chirp.Razor/Chirp.Razor.csproj -c Release
