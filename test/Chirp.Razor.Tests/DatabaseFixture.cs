@@ -4,6 +4,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Tests;
 
+//USE THIS DATABASE FOR IN-MEMORY TESTS
+
+/* Insert this at the start of the class :
+ 
+    private readonly DatabaseFixture fix;
+        private readonly AuthorRepository repo;
+
+        public AuthorRepositoryTests(DatabaseFixture fixture)
+        {
+            fix = fixture;
+            repo = new AuthorRepository(fix.Context);
+        }
+*/
+
 public class DatabaseFixture : IDisposable
 {
     public ChirpDbContext Context { get; }
