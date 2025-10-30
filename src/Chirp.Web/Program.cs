@@ -1,15 +1,24 @@
 using Chirp.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI;
+
+    /*var builder = WebApplication.CreateBuilder(args);
+
+    // Add services to the container.
+    builder.Services.AddRazorPages();
+    builder.Services.AddScoped<ICheepService, CheepService>();
+    builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+
+    builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();*/
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<ICheepService, CheepService>();
-builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+builder.Services.AddDbContext<DbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")!));
+builder.Services.AddDefaultIdentity<DbContext>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<DbContext>();
 
-builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
-
+builder.Services.AddScoped<CheepService>();
 
 // Load database connection 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -37,6 +46,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
 
