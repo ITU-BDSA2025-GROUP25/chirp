@@ -15,8 +15,8 @@ using Microsoft.AspNetCore.Identity.UI;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<DbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")!));
-builder.Services.AddDefaultIdentity<DbContext>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<DbContext>();
+builder.Services.AddDbContext<ChirpDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")!));
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<DbContext>();
 
 builder.Services.AddScoped<CheepService>();
 
