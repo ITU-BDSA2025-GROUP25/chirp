@@ -1,11 +1,12 @@
 ﻿@using Chirp.Razor
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @inject UserManager<ApplicationUser> UserManager
-<ul class="navbar-nav">
+<ul>
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
+        <li>
             <a class="nav-link text-dark" asp-area="Identity"
                asp-page="/Account/Manage/Index" title="Manage">
                 Hello @User.Identity.Name!</a>
@@ -21,11 +22,11 @@
     }
     else
     {
-        <li class="nav-item">
+        <li class="nav-li-a">
             <a class="nav-link text-dark" asp-area="Identity"
                asp-page="/Account/Register">Register</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-li-a">
             <a class="nav-link text-dark" asp-area="Identity"
                asp-page="/Account/Login">Login</a>
         </li>
