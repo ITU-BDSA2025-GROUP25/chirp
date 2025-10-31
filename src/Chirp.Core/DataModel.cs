@@ -1,4 +1,6 @@
-﻿namespace Chirp.Razor;
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Chirp.Razor;
 
 public class Author
 {
@@ -32,6 +34,14 @@ public class CheepDTO
     
     public required string Timestamp { get; set; }
     
+}
+
+public class ApplicationUser : IdentityUser
+{
+    // You can add custom properties here later if needed
+    // For example:
+    // public string DisplayName { get; set; }
+    // public DateTime BirthDate { get; set; }
 }
 
 public class AuthorDTO
