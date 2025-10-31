@@ -6,40 +6,62 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using AspNet.Security.OAuth.GitHub;
 
 var builder = WebApplication.CreateBuilder(args);
-    //var builder = WebApplication.CreateBuilder(args);
 
-    // Add services to the container.
-    //builder.Services.AddRazorPages();
+
+// Application services (Cheep, Author, etc.)
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
-
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
+// Razor pages for the web UI
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<ChirpDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")!));
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ChirpDbContext>();
 
-//builder.Services.AddScoped<CheepService>();
+// Database setup (SQLite)
+builder.Services.AddDbContext<ChirpDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")!));
 
-// Load database connection 
-/*var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ChirpDbContext>(options => options.UseSqlite(connectionString));*/
+// ASP.NET Core Identity for local login
+builder.Services
+    .AddDefaultIdentity<ApplicationUser>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+    })
+    .AddEntityFrameworkStores<ChirpDbContext>();
 
 
+// Github OAUTH2 configtuation
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = "GitHub";
+})
+.AddCookie()
+.AddGitHub(options =>
+{
+    // Securely load secrets from user-secrets for localhost or configuration from azure
+    options.ClientId = builder.Configuration["authentication:github:clientId"];
+    options.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+    
+    options.CallbackPath = "/signin-github";
+});
+
+
+//  BUILD THE APPLICATION
 var app = builder.Build();
 
+// Apply any pending database migrations and seed demo data
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ChirpDbContext>();
-    context.Database.Migrate();  // Apply migrations automatically
+    context.Database.Migrate();
     DbInitializer.SeedDatabase(context);
 }
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -48,11 +70,31 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+// Razor pages
 app.MapRazorPages();
+
+// routes for GitHub login/logout
+app.MapGet("/login", async context =>
+{
+    var props = new Microsoft.AspNetCore.Authentication.AuthenticationProperties
+    {
+        RedirectUri = "/"
+    };
+    await context.ChallengeAsync("GitHub", props);
+});
+
+app.MapPost("/logout", async context =>
+{
+    await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    context.Response.Redirect("/");
+});
 
 app.Run();
 
+// Partial Program class for integration testing
 public partial class Program { }
