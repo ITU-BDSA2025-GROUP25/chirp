@@ -32,4 +32,10 @@
       <ProjectReference Include="..\Chirp.Core\Chirp.Core.csproj" />
     </ItemGroup>
     
+    <ItemGroup>
+      <Compile Update="Pages\LoginModel.cs">
+        <DependentUpon>Login.cshtml</DependentUpon>
+      </Compile>
+    </ItemGroup>
+    
 </Project>
