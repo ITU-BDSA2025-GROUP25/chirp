@@ -24,16 +24,16 @@ jobs:
           dotnet-version: '9.0.x'
           
       - name: Restore dependencies
-        run: dotnet restore src/Chirp.Razor/Chirp.Razor.csproj
+        run: dotnet restore src/Chirp.Core/Chirp.Core.csproj
 
       - name: Build with dotnet
-        run: dotnet build src/Chirp.Razor/Chirp.Razor.csproj -c Release
+        run: dotnet build src/Chirp.Core/Chirp.Core.csproj -c Release
         
       - name: Run unit tests
         run: dotnet test test/Chirp.Razor.Tests/Chirp.Razor.Tests.csproj --configuration Release --no-build --verbosity normal
     
       - name: dotnet publish
-        run: dotnet publish src/Chirp.Razor/Chirp.Razor.csproj -c Release -o ./publish
+        run: dotnet publish src/Chirp.Core/Chirp.Core.csproj -c Release -o ./publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -69,4 +69,3 @@ jobs:
           app-name: 'bdsagroup25chirprazor3'
           slot-name: 'Production'
           package: ./publish
-         

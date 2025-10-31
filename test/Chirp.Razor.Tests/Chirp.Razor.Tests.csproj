@@ -11,6 +11,8 @@
         <PackageReference Include="coverlet.collector" Version="6.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
         <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.9" /> <!-- Changed from 9.0.0 to 9.0.9 -->
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
         <PackageReference Include="xunit" Version="2.9.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
@@ -22,6 +24,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\Chirp.Razor\Chirp.Razor.csproj" />
+        <ProjectReference Include="..\..\src\Chirp.Infrastructure\Chirp.Infrastructure.csproj" />
+        <ProjectReference Include="..\..\src\Chirp.Core\Chirp.Core.csproj" />
     </ItemGroup>
 
 </Project>

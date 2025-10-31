@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
 
 namespace Chirp.Razor.Tests;
