@@ -3,26 +3,25 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI;
 
-    /*var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
+    //var builder = WebApplication.CreateBuilder(args);
 
     // Add services to the container.
-    builder.Services.AddRazorPages();
-    builder.Services.AddScoped<ICheepService, CheepService>();
-    builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+    //builder.Services.AddRazorPages();
+builder.Services.AddScoped<ICheepService, CheepService>();
+builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
-    builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();*/
-
-var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ChirpDbContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")!));
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<DbContext>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ChirpDbContext>();
 
-builder.Services.AddScoped<CheepService>();
+//builder.Services.AddScoped<CheepService>();
 
 // Load database connection 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ChirpDbContext>(options => options.UseSqlite(connectionString));
+/*var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<ChirpDbContext>(options => options.UseSqlite(connectionString));*/
 
 
 var app = builder.Build();
