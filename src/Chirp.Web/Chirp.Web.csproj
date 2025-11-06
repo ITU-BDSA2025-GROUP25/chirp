@@ -41,5 +41,10 @@
         <DependentUpon>Login.cshtml</DependentUpon>
       </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+        <Content Update="Areas\**\*.cshtml" CopyToPublishDirectory="PreserveNewest"/>
+        <Content Update="Pages\**\*.cshtml" CopyToPublishDirectory="PreserveNewest"/>
+    </ItemGroup>
     
 </Project>
