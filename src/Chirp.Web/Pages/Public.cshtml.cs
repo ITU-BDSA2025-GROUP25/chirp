@@ -29,11 +29,10 @@ public class PublicModel : PageModel
 
 	public async Task<IActionResult> OnPost()
 	{
-		if (string.IsNullOrEmpty(Text))
+		if (!ModelState.IsValid)
 		{
-			// Optional: Add error handling
-			ModelState.AddModelError(nameof(Text), "Cheep message cannot be empty");
-			await OnGet(); // Reload cheeps to display the page properly
+			// Reload cheeps and return page with validation errors
+			await OnGet();
 			return Page();
 		}
 
@@ -48,7 +47,7 @@ public class PublicModel : PageModel
 		// Create the cheep - you'll need to handle the Author properly
 		var cheep = new CheepDTO
 		{
-			Message = Text,
+			Message = Text.Trim(),
 			Author = new Author
 			{
 				Name = currentUser,
