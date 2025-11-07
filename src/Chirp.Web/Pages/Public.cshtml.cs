@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Razor.Pages;
@@ -9,7 +10,9 @@ public class PublicModel : PageModel
 	private readonly ICheepRepository _repository;
 	public required List<CheepDTO> Cheeps { get; set; }
     
-	[BindProperty] // This is crucial for form binding
+	[BindProperty]
+	[Required(ErrorMessage = "Cheep message is required")]
+	[StringLength(160, ErrorMessage = "Cheep cannot exceed 160 characters")]
 	public string Text { get; set; }
 
 	public PublicModel(ICheepService service, ICheepRepository repository)

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace Chirp.Razor;
 
@@ -28,6 +29,8 @@ public class Cheep
 
 public class CheepDTO
 {
+    [Required(ErrorMessage = "Cheep message is required")]
+    [StringLength(160, ErrorMessage = "Cheep cannot exceed 160 characters")]
     public required string Message { get; set; }
     
     public required Author Author { get; set; }

@@ -23,6 +23,16 @@ public class CheepRepository : ICheepRepository
 
     public async Task CreateCheep(CheepDTO newCheep)
     {
+        // Server-side validation (defense in depth)
+        if (string.IsNullOrWhiteSpace(newCheep.Message))
+        {
+            throw new ArgumentException("Cheep message cannot be empty");
+        }
+    
+        if (newCheep.Message.Length > 160)
+        {
+            throw new ArgumentException("Cheep cannot exceed 160 characters");
+        }
         // Find or create author
         var author = await _authorRepository.FindByName(newCheep.Author.Name);
         if (author == null)
