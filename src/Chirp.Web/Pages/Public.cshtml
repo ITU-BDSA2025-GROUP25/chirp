@@ -1,5 +1,8 @@
 ﻿@page "/"
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Chirp.Razor
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
 @model Chirp.Razor.Pages.PublicModel
 @{
     ViewData["Title"] = "Chirp!";
@@ -8,6 +11,17 @@
 
 <div>
     <h2> Public Timeline </h2>
+    
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="cheepbox">
+            <h3>What's on your mind @(User.Identity.Name)?</h3>
+            <form method="post">
+                <input style="float: left" type="text" asp-for="Text">
+                <input type="submit" value="Share">
+            </form>
+        </li>
+    }
 
     @if (Model.Cheeps.Any())
     {
