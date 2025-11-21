@@ -1,5 +1,6 @@
-﻿using Chirp.Core;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Chirp.Razor;
 
 public interface ICheepRepository
 {

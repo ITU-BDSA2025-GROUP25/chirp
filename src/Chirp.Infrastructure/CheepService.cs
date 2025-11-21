@@ -1,4 +1,5 @@
-using Chirp.Core;
+using System.Collections.Generic;
+using Chirp.Razor;
 
 //public record CheepViewModel(string Author, string Message, string Timestamp);
 
