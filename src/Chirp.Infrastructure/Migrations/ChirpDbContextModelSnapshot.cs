@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Chirp.Razor.Migrations
+namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDbContext))]
     partial class ChirpDbContextModelSnapshot : ModelSnapshot
