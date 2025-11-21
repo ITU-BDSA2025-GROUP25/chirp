@@ -1,9 +1,7 @@
-using Chirp.Razor;
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using AspNet.Security.OAuth.GitHub;
+
+using Chirp.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 

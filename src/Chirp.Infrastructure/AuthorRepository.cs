@@ -1,6 +1,5 @@
+using Chirp.Core;
 using Microsoft.EntityFrameworkCore;
-
-namespace Chirp.Razor;
 
 public interface IAuthorRepository
 {

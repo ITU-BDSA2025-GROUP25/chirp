@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Chirp.Core;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
-namespace Chirp.Razor;
 
 public class ChirpDbContext : IdentityDbContext<ApplicationUser>
 {
