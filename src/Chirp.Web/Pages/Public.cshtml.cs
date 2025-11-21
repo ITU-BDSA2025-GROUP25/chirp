@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Chirp.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
 namespace Chirp.Razor.Pages;
+
 public class PublicModel : PageModel
 {
 	private readonly ICheepService _service;
