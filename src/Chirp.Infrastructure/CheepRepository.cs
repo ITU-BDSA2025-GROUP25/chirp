@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor;
 
@@ -7,6 +7,7 @@ public interface ICheepRepository
     Task CreateCheep(CheepDTO newCheep);
     Task<List<CheepDTO>> ReadCheep(int  page, int limit);
     Task<List<CheepDTO>> ReadCheepByAuthor(String authorName, int page, int limit);
+    Task<List<CheepDTO>> ReadAllCheepsByAuthor(string authorName);
     Task UpdateCheep(CheepDTO alteredCheep);
 }
 
@@ -80,26 +81,42 @@ public class CheepRepository : ICheepRepository
 
 	//sorts the messages by author and page number for example http://localhost:5273/Jacqualine Gilcoine?page=2 
     public async Task<List<CheepDTO>> ReadCheepByAuthor(string authorName, int page, int limit)
-{
-    int offset = (page - 1) * limit;
+    {
+        int offset = (page - 1) * limit;
 
-    var query = from cheep in _dbContext.Cheeps
-        where cheep.Author.Name == authorName
-        orderby cheep.TimeStamp descending
-        select new CheepDTO()
-        {
-            Message = cheep.Text,
-            Author = cheep.Author,
-            Timestamp = cheep.TimeStamp.ToString("g")
-        };
+        var query = from cheep in _dbContext.Cheeps
+            where cheep.Author.Name == authorName
+            orderby cheep.TimeStamp descending
+            select new CheepDTO()
+            {
+                Message = cheep.Text,
+                Author = cheep.Author,
+                Timestamp = cheep.TimeStamp.ToString("g")
+            };
 
-    var result = await query
-        .Skip(offset)
-        .Take(limit)
-        .ToListAsync();
+        var result = await query
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
 
-    return result;
-}
+        return result;
+    }
+
+    // Gets ALL cheeps by an author without pagination (for About Me page)
+    public async Task<List<CheepDTO>> ReadAllCheepsByAuthor(string authorName)
+    {
+        var query = from cheep in _dbContext.Cheeps
+            where cheep.Author.Name == authorName
+            orderby cheep.TimeStamp descending
+            select new CheepDTO()
+            {
+                Message = cheep.Text,
+                Author = cheep.Author,
+                Timestamp = cheep.TimeStamp.ToString("g")
+            };
+
+        return await query.ToListAsync();
+    }
 
     public async Task UpdateCheep(CheepDTO alteredCheep)
     {

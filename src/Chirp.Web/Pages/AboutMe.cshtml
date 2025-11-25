@@ -1,0 +1,99 @@
+@page
+@model Chirp.Razor.Pages.AboutMeModel
+@{
+    ViewData["Title"] = "About Me";
+}
+
+<div class="about-me-container">
+    <h2>About @Model.UserName</h2>
+    
+    <div class="user-info">
+        <h3>Personal Information</h3>
+        <p><strong>Username:</strong> @Model.UserName</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Total Cheeps:</strong> @Model.TotalCheeps</p>
+    </div>
+
+    <div class="user-cheeps">
+        <h3>My Cheeps</h3>
+        
+        @if (Model.UserCheeps.Any())
+        {
+            <ul id="messagelist">
+                @foreach (var cheep in Model.UserCheeps)
+                {
+                    <li>
+                        <p>
+                            <strong>@cheep.Author.Name</strong> 
+                            @cheep.Message 
+                            <small>&mdash; @cheep.Timestamp</small>
+                        </p>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>You haven't posted any cheeps yet.</p>
+        }
+    </div>
+
+    <div class="danger-zone">
+        <h3 style="color: #d32f2f;">Danger Zone</h3>
+        <p>Once you delete your account, there is no going back. Please be certain.</p>
+        
+        <form method="post" asp-page-handler="ForgetMe" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+            <button type="submit" class="forget-me-button">Forget me!</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .about-me-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .user-info, .user-cheeps, .danger-zone {
+        margin-bottom: 30px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .danger-zone {
+        border-color: #d32f2f;
+        background-color: #ffebee;
+    }
+
+    .forget-me-button {
+        background-color: #d32f2f;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .forget-me-button:hover {
+        background-color: #b71c1c;
+    }
+
+    .user-cheeps ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .user-cheeps li {
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: white;
+        border-radius: 3px;
+        border: 1px solid #e0e0e0;
+    }
+</style>

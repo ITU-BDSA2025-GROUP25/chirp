@@ -7,6 +7,7 @@ public interface ICheepService
 {
     Task<List<CheepDTO>> GetCheeps(int page = 1);
     Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int page = 1);
+    Task<List<CheepDTO>> GetAllCheepsFromAuthor(string author);
 }
 
 public class CheepService : ICheepService
@@ -29,5 +30,10 @@ public class CheepService : ICheepService
     public async Task <List<CheepDTO>> GetCheepsFromAuthor(String author ,int page = 1)
     {
         return await _repository.ReadCheepByAuthor(author, page, PageSize);
+    }
+
+    public async Task<List<CheepDTO>> GetAllCheepsFromAuthor(string author)
+    {
+        return await _repository.ReadAllCheepsByAuthor(author);
     }
 }
