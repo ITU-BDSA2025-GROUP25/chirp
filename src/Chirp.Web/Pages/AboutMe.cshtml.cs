@@ -73,8 +73,8 @@ public class AboutMeModel : PageModel
             // Sign out the user
             await _signInManager.SignOutAsync();
 
-            // Redirect to the public timeline
-            return RedirectToPage("/Public");
+            // Redirect to the public timeline (root page)
+            return Redirect("/");
         }
         catch (Exception ex)
         {
