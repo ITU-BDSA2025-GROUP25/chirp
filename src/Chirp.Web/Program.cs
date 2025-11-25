@@ -23,18 +23,29 @@ builder.Services.AddDbContext<ChirpDbContext>(options =>
 builder.Services
     .AddDefaultIdentity<ApplicationUser>(options =>
     {
-        options.SignIn.RequireConfirmedAccount = true;
+        options.SignIn.RequireConfirmedAccount = false; // Set to false for testing
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequiredLength = 6;
     })
     .AddEntityFrameworkStores<ChirpDbContext>();
 
-// GitHub OAuth integration
-builder.Services.AddAuthentication()
-    .AddGitHub(options =>
-    {
-        options.ClientId = builder.Configuration["authentication:github:clientId"];
-        options.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
-        options.CallbackPath = "/signin-github";
-    });
+// GitHub OAuth integration (only if configured)
+var githubClientId = builder.Configuration["authentication:github:clientId"];
+var githubClientSecret = builder.Configuration["authentication:github:clientSecret"];
+
+if (!string.IsNullOrEmpty(githubClientId) && !string.IsNullOrEmpty(githubClientSecret))
+{
+    builder.Services.AddAuthentication()
+        .AddGitHub(options =>
+        {
+            options.ClientId = githubClientId;
+            options.ClientSecret = githubClientSecret;
+            options.CallbackPath = "/signin-github";
+        });
+}
 
 // Build the application
 var app = builder.Build();
