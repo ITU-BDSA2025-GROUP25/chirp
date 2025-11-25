@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Chirp.Razor.Migrations
+namespace Chirp.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class InitialDBSchema : Migration
@@ -11,6 +11,7 @@ namespace Chirp.Razor.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // Create Authors table first (no dependencies)
             migrationBuilder.CreateTable(
                 name: "Authors",
                 columns: table => new
@@ -25,6 +26,7 @@ namespace Chirp.Razor.Migrations
                     table.PrimaryKey("PK_Authors", x => x.AuthorId);
                 });
 
+            // Create Cheeps table (depends on Authors)
             migrationBuilder.CreateTable(
                 name: "Cheeps",
                 columns: table => new
