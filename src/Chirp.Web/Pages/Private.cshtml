@@ -1,0 +1,31 @@
+﻿@page "/private"
+@using Microsoft.AspNetCore.Identity
+@model Chirp.Razor.Pages.PrivateModel
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "Shared/_Layout";
+}
+
+<div>
+    <h2>Your Private Timeline</h2>
+    <a href="/">Public Timeline</a>
+    
+    
+    @if (Model.Cheeps.Any())
+    {
+        <ul class="cheeps">
+            @foreach (var cheep in Model.Cheeps)
+            {
+                <li>
+                    <strong><a href="/@cheep.Author.Name">@cheep.Author.Name</a></strong>
+                    @cheep.Message
+                    <small>— @cheep.Timestamp</small>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <em>No cheeps from people you follow.</em>
+    }
+</div>

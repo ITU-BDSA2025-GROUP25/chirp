@@ -39,6 +39,15 @@ public class CheepDTO
     
 }
 
+public class Follow
+{
+    public int Id { get; set; }
+
+    public string Follower { get; set; }
+    public string Followee { get; set; }
+}
+
+
 public class ApplicationUser : IdentityUser
 {
     // You can add custom properties here later if needed

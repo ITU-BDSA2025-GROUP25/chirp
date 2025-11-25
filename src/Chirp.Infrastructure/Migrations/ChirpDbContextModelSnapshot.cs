@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Chirp.Razor.Migrations
+namespace Chirp.Infrastructure.Migrations
 {
     [DbContext(typeof(ChirpDbContext))]
     partial class ChirpDbContextModelSnapshot : ModelSnapshot
@@ -121,6 +121,25 @@ namespace Chirp.Razor.Migrations
                     b.HasIndex("AuthorId");
 
                     b.ToTable("Cheeps");
+                });
+
+            modelBuilder.Entity("Chirp.Razor.Follow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Followee")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Follower")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

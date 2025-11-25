@@ -9,6 +9,8 @@ public class PublicModel : PageModel
 	private readonly ICheepService _service;
 	private readonly ICheepRepository _repository;
 	public required List<CheepDTO> Cheeps { get; set; }
+	public List<string> Following { get; set; } = new();
+
     
 	[BindProperty]
 	[Required(ErrorMessage = "Cheep message is required")]
@@ -25,6 +27,9 @@ public class PublicModel : PageModel
 	{
 		if (page < 1) page = 1;
 		Cheeps = await _service.GetCheeps(page);
+		
+		if (User.Identity.IsAuthenticated)
+			Following = await _repository.GetFollowing(User.Identity.Name);
 	}
 
 	public async Task<IActionResult> OnPost()
@@ -65,4 +70,17 @@ public class PublicModel : PageModel
 		// Redirect to prevent form resubmission
 		return RedirectToPage();
 	}
+	public async Task<IActionResult> OnPostFollow(string user)
+	{
+		await _repository.FollowUser(User.Identity.Name!, user);
+		return Redirect("/");
+	}
+
+	public async Task<IActionResult> OnPostUnfollow(string user)
+	{
+		await _repository.UnfollowUser(User.Identity.Name!, user);
+		return Redirect("/");
+	}
+
+
 }
