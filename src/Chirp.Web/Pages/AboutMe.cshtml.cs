@@ -51,11 +51,16 @@ public class AboutMeModel : PageModel
 
     public async Task<IActionResult> OnPostForgetMeAsync()
     {
+        Console.WriteLine("[DEBUG] ForgetMe button clicked!");
+        
         var user = await _userManager.GetUserAsync(User);
         if (user == null)
         {
-            return RedirectToPage("/Account/Login");
+            Console.WriteLine("[DEBUG] User is null, redirecting to login");
+            return RedirectToPage("/Login");
         }
+
+        Console.WriteLine($"[DEBUG] Deleting user: {user.UserName}");
 
         try
         {
@@ -63,22 +68,41 @@ public class AboutMeModel : PageModel
             var author = await _authorRepository.GetAuthorByName(user.UserName!);
             if (author != null)
             {
-                // Delete or anonymize the author and their cheeps
+                Console.WriteLine($"[DEBUG] Found author with ID: {author.AuthorId}, deleting...");
+                // Delete the author and their cheeps
                 await _authorRepository.DeleteAuthor(author.AuthorId);
+                Console.WriteLine($"[DEBUG] Author deleted successfully");
+            }
+            else
+            {
+                Console.WriteLine($"[DEBUG] No author found for username: {user.UserName}");
             }
 
             // Delete the identity user
-            await _userManager.DeleteAsync(user);
+            Console.WriteLine($"[DEBUG] Deleting Identity user...");
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                Console.WriteLine($"[DEBUG] Failed to delete user. Errors: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+                ModelState.AddModelError(string.Empty, "Failed to delete user account.");
+                return Page();
+            }
+            Console.WriteLine($"[DEBUG] Identity user deleted successfully");
 
             // Sign out the user
+            Console.WriteLine($"[DEBUG] Signing out user...");
             await _signInManager.SignOutAsync();
+            Console.WriteLine($"[DEBUG] User signed out successfully");
 
-            // Redirect to the public timeline (root page)
-            return Redirect("/");
+            // Redirect to the home page
+            Console.WriteLine($"[DEBUG] Redirecting to home page...");
+            return LocalRedirect("~/");
         }
         catch (Exception ex)
         {
             // Log the error (in a real app, use proper logging)
+            Console.WriteLine($"[ERROR] Exception deleting account: {ex.Message}");
+            Console.WriteLine($"[ERROR] Stack trace: {ex.StackTrace}");
             ModelState.AddModelError(string.Empty, "An error occurred while deleting your account.");
             return Page();
         }

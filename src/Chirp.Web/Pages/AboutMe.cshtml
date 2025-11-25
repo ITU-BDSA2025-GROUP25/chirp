@@ -43,6 +43,7 @@
         <p>Once you delete your account, there is no going back. Please be certain.</p>
         
         <form method="post" asp-page-handler="ForgetMe" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+            @Html.AntiForgeryToken()
             <button type="submit" class="forget-me-button">Forget me!</button>
         </form>
     </div>
