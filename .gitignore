@@ -129,3 +129,4 @@ project.packagespec.json
 # OS-specific
 .DS_Store
 Thumbs.db
+*.md
