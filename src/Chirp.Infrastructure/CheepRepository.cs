@@ -8,6 +8,13 @@ public interface ICheepRepository
     Task<List<CheepDTO>> ReadCheep(int  page, int limit);
     Task<List<CheepDTO>> ReadCheepByAuthor(String authorName, int page, int limit);
     Task UpdateCheep(CheepDTO alteredCheep);
+    Task FollowUser(string follower, string followee);
+    Task UnfollowUser(string follower, string followee);
+    Task<bool> IsFollowing(string follower, string followee);
+    Task<List<CheepDTO>> GetPrivateTimeline(string username, int page);
+    Task<List<string>> GetFollowing(string username);
+
+
 }
 
 public class CheepRepository : ICheepRepository
@@ -54,6 +61,73 @@ public class CheepRepository : ICheepRepository
         _dbContext.Cheeps.Add(cheep);
         await _dbContext.SaveChangesAsync();
     }
+    
+    public async Task FollowUser(string follower, string followee)
+    {
+        if (!_dbContext.Follows.Any(f => f.Follower == follower && f.Followee == followee))
+        {
+            _dbContext.Follows.Add(new Follow
+            {
+                Follower = follower,
+                Followee = followee
+            });
+
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+
+    public async Task UnfollowUser(string follower, string followee)
+    {
+        var rel = await _dbContext.Follows
+            .FirstOrDefaultAsync(f => f.Follower == follower && f.Followee == followee);
+
+        if (rel != null)
+        {
+            _dbContext.Follows.Remove(rel);
+            await _dbContext.SaveChangesAsync();
+        }
+    }
+
+    public Task<bool> IsFollowing(string follower, string followee)
+    {
+        return _dbContext.Follows
+            .AnyAsync(f => f.Follower == follower && f.Followee == followee);
+    }
+
+    public async Task<List<CheepDTO>> GetPrivateTimeline(string username, int page)
+    {
+        const int pageSize = 32;
+
+        var followees = _dbContext.Follows
+            .Where(f => f.Follower == username)
+            .Select(f => f.Followee);
+
+        return await _dbContext.Cheeps
+            .Where(c => followees.Contains(c.Author.Name))
+            .OrderByDescending(c => c.TimeStamp)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(c => new CheepDTO
+            {
+                Message = c.Text,
+                Timestamp = c.TimeStamp.ToString("g"),
+                Author = new Author
+                {
+                    Name = c.Author.Name,
+                    Email = c.Author.Email
+                }
+            })
+            .ToListAsync();
+    }
+
+    public Task<List<string>> GetFollowing(string username)
+    {
+        return _dbContext.Follows
+            .Where(f => f.Follower == username)
+            .Select(f => f.Followee)
+            .ToListAsync();
+    }
+
 
     
    //Reads all cheeps based on current page and limit of 32

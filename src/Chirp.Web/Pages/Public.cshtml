@@ -11,9 +11,10 @@
 
 <div>
     <h2> Public Timeline </h2>
-    
+
     @if (SignInManager.IsSignedIn(User))
     {
+        <a href="/private">Private Timeline</a>
         <li class="cheepbox">
             <h3>What's on your mind @(User.Identity.Name)?</h3>
             <form method="post">
@@ -33,9 +34,33 @@
                         <strong>
                             <a href="/@cheep.Author.Name">@cheep.Author.Name</a>
                         </strong>
+
+                        @* Follow/unfollow button HERE inside main loop *@
+                        @if (User.Identity.IsAuthenticated && User.Identity.Name != cheep.Author.Name)
+                        {
+                            if (Model.Following.Contains(cheep.Author.Name))
+                            {
+                                <form method="post"
+                                      asp-page-handler="Unfollow"
+                                      asp-route-user="@cheep.Author.Name"
+                                      style="display:inline;">
+                                    <button type="submit">Unfollow</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post"
+                                      asp-page-handler="Follow"
+                                      asp-route-user="@cheep.Author.Name"
+                                      style="display:inline;">
+                                    <button type="submit">Follow</button>
+                                </form>
+                            }
+                        }
+
                         @cheep.Message
                         <small>&mdash; @cheep.Timestamp</small>
-                    </p>
+                    <p>
                 </li>
             }
         </ul>
