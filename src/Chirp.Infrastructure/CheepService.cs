@@ -5,6 +5,9 @@ public interface ICheepService
     Task<List<CheepDTO>> GetCheeps(int page = 1);
     Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int page = 1);
     Task<List<CheepDTO>> GetPrivateTimeline(string username, int page = 1);
+
+    Task PostCheep(CheepDTO cheep);
+
 }
 
 public class CheepService : ICheepService
@@ -37,4 +40,10 @@ public class CheepService : ICheepService
         var following = await _followRepository.GetFollowing(username);
         return await _cheepRepository.GetTimelineByAuthors(following, page);
     }
+
+    public async Task PostCheep(CheepDTO cheep)
+    {
+        await _cheepRepository.CreateCheep(cheep);
+    }
+
 }
