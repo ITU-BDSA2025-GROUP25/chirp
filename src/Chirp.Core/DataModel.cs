@@ -32,8 +32,9 @@ public class CheepDTO
     [Required(ErrorMessage = "Cheep message is required")]
     [StringLength(160, ErrorMessage = "Cheep cannot exceed 160 characters")]
     public required string Message { get; set; }
-    
-    public required Author Author { get; set; }
+
+    public int CheepId { get; set; }
+    public required string AuthorName { get; set; }
     
     public required string Timestamp { get; set; }
     
@@ -60,4 +61,10 @@ public class AuthorDTO
 {
     public string Name { get; set; }
     public string Email { get; set; }
+}
+
+public class FollowDTO
+{
+    public string Follower { get; set; }
+    public string Followee { get; set; }
 }

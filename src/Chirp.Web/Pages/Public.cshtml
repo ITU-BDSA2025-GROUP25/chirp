@@ -32,17 +32,17 @@
                 <li>
                     <p>
                         <strong>
-                            <a href="/@cheep.Author.Name">@cheep.Author.Name</a>
+                            <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
                         </strong>
 
                         @* Follow/unfollow button HERE inside main loop *@
-                        @if (User.Identity.IsAuthenticated && User.Identity.Name != cheep.Author.Name)
+                        @if (User.Identity.IsAuthenticated && User.Identity.Name != cheep.AuthorName)
                         {
-                            if (Model.Following.Contains(cheep.Author.Name))
+                            if (Model.Following.Contains(cheep.AuthorName))
                             {
                                 <form method="post"
                                       asp-page-handler="Unfollow"
-                                      asp-route-user="@cheep.Author.Name"
+                                      asp-route-user="@cheep.AuthorName"
                                       style="display:inline;">
                                     <button type="submit">Unfollow</button>
                                 </form>
@@ -51,7 +51,7 @@
                             {
                                 <form method="post"
                                       asp-page-handler="Follow"
-                                      asp-route-user="@cheep.Author.Name"
+                                      asp-route-user="@cheep.AuthorName"
                                       style="display:inline;">
                                     <button type="submit">Follow</button>
                                 </form>

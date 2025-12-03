@@ -5,13 +5,13 @@ namespace Chirp.Razor.Pages;
 
 public class PrivateModel : PageModel
 {
-    private readonly ICheepRepository _repository;
+    private readonly ICheepService _cheepService;
 
     public required List<CheepDTO> Cheeps { get; set; }
 
-    public PrivateModel(ICheepRepository repository)
+    public PrivateModel(ICheepService cheepService)
     {
-        _repository = repository;
+        _cheepService = cheepService;
     }
 
     public async Task<IActionResult> OnGet(int page = 1)
@@ -20,7 +20,7 @@ public class PrivateModel : PageModel
             return RedirectToPage("/Account/Login");
 
         var username = User.Identity.Name!;
-        Cheeps = await _repository.GetPrivateTimeline(username, page);
+        Cheeps = await _cheepService.GetPrivateTimeline(username, page);
 
         return Page();
     }
