@@ -1,33 +1,40 @@
-using System.Collections.Generic;
 using Chirp.Razor;
-
-//public record CheepViewModel(string Author, string Message, string Timestamp);
 
 public interface ICheepService
 {
     Task<List<CheepDTO>> GetCheeps(int page = 1);
     Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int page = 1);
+    Task<List<CheepDTO>> GetPrivateTimeline(string username, int page = 1);
 }
 
 public class CheepService : ICheepService
 {
-    private readonly ICheepRepository _repository;
-    
-	//32 messages per page
+    private readonly ICheepRepository _cheepRepository;
+    private readonly IFollowRepository _followRepository;
+
     private const int PageSize = 32;
 
-    public CheepService(ICheepRepository repository)
+    public CheepService(
+        ICheepRepository cheepRepository,
+        IFollowRepository followRepository)
     {
-        _repository = repository;
-    }
-    
-    public async Task <List<CheepDTO>> GetCheeps(int page = 1)
-    {
-        return await _repository.ReadCheep(page, PageSize);
+        _cheepRepository = cheepRepository;
+        _followRepository = followRepository;
     }
 
-    public async Task <List<CheepDTO>> GetCheepsFromAuthor(String author ,int page = 1)
+    public async Task<List<CheepDTO>> GetCheeps(int page = 1)
     {
-        return await _repository.ReadCheepByAuthor(author, page, PageSize);
+        return await _cheepRepository.ReadCheep(page, PageSize);
+    }
+
+    public async Task<List<CheepDTO>> GetCheepsFromAuthor(string author, int page = 1)
+    {
+        return await _cheepRepository.ReadCheepByAuthor(author, page, PageSize);
+    }
+
+    public async Task<List<CheepDTO>> GetPrivateTimeline(string username, int page = 1)
+    {
+        var following = await _followRepository.GetFollowing(username);
+        return await _cheepRepository.GetTimelineByAuthors(following, page);
     }
 }

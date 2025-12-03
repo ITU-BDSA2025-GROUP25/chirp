@@ -17,7 +17,7 @@
             @foreach (var cheep in Model.Cheeps)
             {
                 <li>
-                    <strong><a href="/@cheep.Author.Name">@cheep.Author.Name</a></strong>
+                    <strong><a href="/@cheep.AuthorName">@cheep.AuthorName</a></strong>
                     @cheep.Message
                     <small>— @cheep.Timestamp</small>
                 </li>
