@@ -16,10 +16,10 @@
     {
         <a href="/private">Private Timeline</a>
         <li class="cheepbox">
-            <h3>What's on your mind @(User.Identity.Name)?</h3>
+            <h3>What's on your mind @(User.Identity!.Name)?</h3>
             <form method="post">
-                <input style="float: left" type="text" asp-for="Text">
-                <input type="submit" value="Share">
+                <input type="text" asp-for="Text"/>
+                <input type="submit" value="Share"/>
             </form>
         </li>
     }
@@ -35,32 +35,51 @@
                             <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
                         </strong>
 
-                        @* Follow/unfollow button HERE inside main loop *@
-                        @if (User.Identity.IsAuthenticated && User.Identity.Name != cheep.AuthorName)
+                        @* FOLLOW / UNFOLLOW *@
+                        @if (User.Identity!.IsAuthenticated && User.Identity!.Name != cheep.AuthorName)
                         {
-                            if (Model.Following.Contains(cheep.AuthorName))
-                            {
-                                <form method="post"
-                                      asp-page-handler="Unfollow"
-                                      asp-route-user="@cheep.AuthorName"
-                                      style="display:inline;">
-                                    <button type="submit">Unfollow</button>
-                                </form>
-                            }
-                            else
-                            {
-                                <form method="post"
-                                      asp-page-handler="Follow"
-                                      asp-route-user="@cheep.AuthorName"
-                                      style="display:inline;">
-                                    <button type="submit">Follow</button>
-                                </form>
-                            }
-                        }
+                        <form method="post"
+                              asp-page-handler="Unfollow"
+                              asp-route-user="@cheep.AuthorName"
+                              style="display:inline;">
+                            <button type="submit">Unfollow</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form method="post"
+                              asp-page-handler="Follow"
+                              asp-route-user="@cheep.AuthorName"
+                              style="display:inline;">
+                            <button type="submit">Follow</button>
+                        </form>
+                    }
 
-                        @cheep.Message
-                        <small>&mdash; @cheep.Timestamp</small>
-                    <p>
+                    <br/>
+
+                    @cheep.Message
+                    <small>&mdash; @cheep.Timestamp</small>
+
+                    @* LIKE / UNLIKE button and logic *@
+                    @if (User.Identity!.IsAuthenticated)
+                    {
+                        <form method="post"
+                              asp-page-handler="Like"
+                              asp-route-cheepId="@cheep.CheepId"
+                              style="display:inline;">
+                                <button type="submit">❤️ Like</button>
+                            </form>
+
+                            <form method="post"
+                                  asp-page-handler="Unlike"
+                                  asp-route-cheepId="@cheep.CheepId"
+                                  style="display:inline;">
+                                <button type="submit">Unlike</button>
+                            </form>
+
+                            <span>(@cheep.LikeCount likes)</span>
+                        }
+                    </p>
                 </li>
             }
         </ul>
