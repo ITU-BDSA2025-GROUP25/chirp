@@ -10,9 +10,10 @@ public class ChirpDbContext : IdentityDbContext<ApplicationUser>
     
     public DbSet<Follow> Follows { get; set; }
 
+    public DbSet<Like> Likes { get; set; }
+
 
     public ChirpDbContext(DbContextOptions<ChirpDbContext> options) : base(options)
     {
-        
     }
 }

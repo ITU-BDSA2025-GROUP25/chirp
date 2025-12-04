@@ -38,6 +38,9 @@ public class CheepDTO
     
     public required string Timestamp { get; set; }
     
+    public int LikeCount { get; set; }
+    public bool HasLiked { get; set; }
+    
 }
 
 public class Follow
@@ -48,6 +51,12 @@ public class Follow
     public string Followee { get; set; }
 }
 
+public class Like
+{
+    public int Id { get; set; }
+    public int CheepId { get; set; }
+    public string Username { get; set; }
+}
 
 public class ApplicationUser : IdentityUser
 {
@@ -57,12 +66,14 @@ public class ApplicationUser : IdentityUser
     // public DateTime BirthDate { get; set; }
 }
 
+// not currently used cause Author doesnt leave this layer
 public class AuthorDTO
 {
     public string Name { get; set; }
     public string Email { get; set; }
 }
 
+// not currently used cause Author doesnt leave this layer
 public class FollowDTO
 {
     public string Follower { get; set; }
