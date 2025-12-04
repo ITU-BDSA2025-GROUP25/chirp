@@ -35,6 +35,18 @@ namespace Chirp.Razor.Pages
             await _followRepository.Unfollow(currentUser, user);
             return RedirectToPage();
         }
+        
+        public async Task<IActionResult> OnPostLike(int cheepId)
+        {
+            await _cheepService.LikeCheep(cheepId, User.Identity!.Name!);
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostUnlike(int cheepId)
+        {
+            await _cheepService.UnlikeCheep(cheepId, User.Identity!.Name!);
+            return RedirectToPage();
+        }
 
     }
 }
