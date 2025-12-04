@@ -1,27 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Chirp.Razor.Pages;
-
-public class PrivateModel : PageModel
+namespace Chirp.Razor.Pages
 {
-    private readonly ICheepService _cheepService;
-
-    public required List<CheepDTO> Cheeps { get; set; }
-
-    public PrivateModel(ICheepService cheepService)
+    public class PrivateModel : PageModel
     {
-        _cheepService = cheepService;
-    }
+        private readonly ICheepService _cheepService;
+        private readonly IFollowRepository _followRepository;
 
-    public async Task<IActionResult> OnGet(int page = 1)
-    {
-        if (!User.Identity!.IsAuthenticated)
-            return RedirectToPage("/Account/Login");
+        public List<CheepDTO> Cheeps { get; set; } = new();
+        public List<string> Following { get; set; } = new();
 
-        var username = User.Identity.Name!;
-        Cheeps = await _cheepService.GetPrivateTimeline(username, page);
+        public PrivateModel(ICheepService cheepService, IFollowRepository followRepository)
+        {
+            _cheepService = cheepService;
+            _followRepository = followRepository;
+        }
 
-        return Page();
+        public async Task OnGet()
+        {
+            var username = User.Identity?.Name;
+            if (string.IsNullOrEmpty(username))
+                return;
+
+            Following = await _followRepository.GetFollowing(username);
+            Cheeps = await _cheepService.GetPrivateTimeline(username);
+        }
+
+        public async Task<IActionResult> OnPostUnfollowAsync(string user)
+        {
+            var currentUser = User.Identity?.Name;
+            if (string.IsNullOrEmpty(currentUser)) return RedirectToPage("/Account/Login");
+
+            await _followRepository.Unfollow(currentUser, user);
+            return RedirectToPage();
+        }
+
     }
 }

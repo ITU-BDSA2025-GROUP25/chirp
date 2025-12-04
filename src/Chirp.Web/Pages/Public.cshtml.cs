@@ -61,13 +61,13 @@ public class PublicModel : PageModel
     public async Task<IActionResult> OnPostFollow(string user)
     {
         await _followRepository.Follow(User.Identity!.Name!, user);
-        return Redirect("/");
+        return RedirectToPage();
     }
 
     public async Task<IActionResult> OnPostUnfollow(string user)
     {
         await _followRepository.Unfollow(User.Identity!.Name!, user);
-        return Redirect("/");
+        return RedirectToPage();
     }
 
     public async Task<IActionResult> OnPostLike(int cheepId)

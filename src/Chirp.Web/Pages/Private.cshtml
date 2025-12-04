@@ -1,25 +1,58 @@
 ﻿@page "/private"
-@using Microsoft.AspNetCore.Identity
 @model Chirp.Razor.Pages.PrivateModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    ViewData["Title"] = "Chirp!";
+    ViewData["Title"] = "Your Private Timeline";
     Layout = "Shared/_Layout";
 }
 
 <div>
     <h2>Your Private Timeline</h2>
     <a href="/">Public Timeline</a>
-    
-    
+
     @if (Model.Cheeps.Any())
     {
         <ul class="cheeps">
             @foreach (var cheep in Model.Cheeps)
             {
-                <li>
-                    <strong><a href="/@cheep.AuthorName">@cheep.AuthorName</a></strong>
-                    @cheep.Message
+                <li style="position: relative; padding-right: 80px;"> <!-- space for button -->
+                    <strong>
+                        <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
+                    </strong>
+
+                    @* Unfollow button on top right of each cheep *@
+                    @if (User.Identity!.IsAuthenticated)
+                    {
+                        <form method="post"
+                              asp-page-handler="Unfollow"
+                              asp-route-user="@cheep.AuthorName"
+                              style="position: absolute; top: 0; right: 0;">
+                            <button type="submit" class="btn btn-sm btn-secondary">Unfollow</button>
+                        </form>
+                    }
+
+                    <p>@cheep.Message</p>
                     <small>— @cheep.Timestamp</small>
+
+                    @* Like / Unlike buttons *@
+                    @if (User.Identity!.IsAuthenticated)
+                    {
+                        <form method="post"
+                              asp-page-handler="Like"
+                              asp-route-cheepId="@cheep.CheepId"
+                              style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-success">❤️ Like</button>
+                        </form>
+
+                        <form method="post"
+                              asp-page-handler="Unlike"
+                              asp-route-cheepId="@cheep.CheepId"
+                              style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-warning">Unlike</button>
+                        </form>
+
+                        <span>(@cheep.LikeCount likes)</span>
+                    }
                 </li>
             }
         </ul>
