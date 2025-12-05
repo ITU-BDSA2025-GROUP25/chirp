@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
+using Assert = Xunit.Assert;
 
 namespace Chirp.Razor.Tests;
 
@@ -32,7 +33,7 @@ public class TestAPI : IClassFixture<WebApplicationFactory<Program>>
         Assert.Contains("Public Timeline", content);
     }
 
-    [Theory]
+    [Xunit.Theory]
     [InlineData("Helge")]
     [InlineData("Adrian")]  
     public async Task CanSeePrivateTimeline(string author)  

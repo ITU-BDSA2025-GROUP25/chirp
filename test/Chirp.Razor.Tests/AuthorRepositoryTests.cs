@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Chirp.Razor;
 using Chirp.Razor.Tests;
 using Xunit;
+using Assert = Xunit.Assert;
 
 public class AuthorRepositoryTests
 {

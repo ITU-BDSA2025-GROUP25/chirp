@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
+using Assert = Xunit.Assert;
 
 namespace Chirp.Razor.Tests;
 
@@ -15,7 +16,7 @@ public class PaginationTests : IClassFixture<WebApplicationFactory<Program>>
         _client = factory.CreateClient();
     }
 
-    [Theory]
+    [Xunit.Theory]
     [InlineData(1)]
     [InlineData(2)]
     [InlineData(3)]
@@ -31,7 +32,7 @@ public class PaginationTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Contains("Public Timeline", content);
     }
 
-    [Theory]
+    [Xunit.Theory]
     [InlineData("Helge", 1)]
     [InlineData("Adrian", 1)]
     [InlineData("Helge", 2)]
@@ -65,7 +66,7 @@ public class PaginationTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Contains("Public Timeline", contentPage1);
     }
 
-    [Theory]
+    [Xunit.Theory]
     [InlineData(0)]   // Invalid page
     [InlineData(-1)]  // Negative page
     public async Task PublicTimeline_HandlesInvalidPageNumbers(int invalidPage)
