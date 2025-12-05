@@ -34,6 +34,58 @@ public class Tests : PageTest
     [Test]
     public async Task CheepBox_ShouldBeVisible_AfterSuccessfulLogin()
     {
+        //login first
+        await LoginAsync();
+        await Page.GotoAsync(BaseUrl);
+        
+        //cheep input box should be visible
+        /*var cheepInput = Page.GetByPlaceholder("What's on your mind " + username + "?");
+        await Expect(cheepInput).ToBeVisibleAsync();*/
+        
+        //Post button should be visible
+        var postButton = Page.GetByRole(AriaRole.Button, new() { Name = "Share" });
+        await Expect(postButton).ToBeVisibleAsync();
+    }
+    
+    [Test]
+    public async Task CheepInput_ShouldShowWarning_WhenExceeding160Characters()
+    {
+        //Login first
+        await LoginAsync();
+        await Page.GotoAsync(BaseUrl);
+        
+        //Create a string with exactly 161 characters
+        string longCheep = new string('A', 161);
+        
+        //Type 161 characters
+        var cheepInput = Page.GetByPlaceholder("What's on your mind?");
+        await cheepInput.FillAsync(longCheep);
+        
+        //Warning message should appear
+        //Look for warning element (adjust selector based on your UI)
+        var warningMessage = Page.GetByText("Maximum 160 characters", new() { Exact = false })
+            .Or(Page.GetByText("Too long", new() { Exact = false }))
+            .Or(Page.GetByText("exceeds limit", new() { Exact = false }));
+        
+        await Expect(warningMessage).ToBeVisibleAsync();
+        
+        //Assert: Post button should be disabled or show error
+        var postButton = Page.GetByRole(AriaRole.Button, new() { Name = "Post Cheep" });
+        
+        //Check if button is disabled OR has error class/style
+        var isDisabled = await postButton.GetAttributeAsync("disabled");
+        if (isDisabled == null)
+        {
+            //If not disabled, check for error styling
+            var buttonClass = await postButton.GetAttributeAsync("class");
+            Assert.That(buttonClass, Does.Contain("disabled").Or.Contains("error").IgnoreCase,
+                "Post button should be disabled or styled as error when cheep exceeds limit");
+        }
+    }
+    
+    
+    private async Task LoginAsync()
+    {
         // Arrange
         await Page.GotoAsync($"{BaseUrl}/Identity/Account/Login");
         
@@ -44,17 +96,11 @@ public class Tests : PageTest
         
         // Wait for navigation to complete
         await Page.WaitForURLAsync(BaseUrl);
-        
-        // Assert: Cheep input box should be visible
-        /*var cheepInput = Page.GetByPlaceholder("What's on your mind " + username + "?");
-        await Expect(cheepInput).ToBeVisibleAsync();*/
-        
-        // Assert: Post button should be visible
-        var postButton = Page.GetByRole(AriaRole.Button, new() { Name = "Share" });
-        await Expect(postButton).ToBeVisibleAsync();
+        await Page.WaitForTimeoutAsync(1000); // Additional wait
     }
+    
     /*
-    [Test]
+    [Test] //This is a test to see if playwright works. Should always return true
     public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
     {
         await Page.GotoAsync("https://playwright.dev");
