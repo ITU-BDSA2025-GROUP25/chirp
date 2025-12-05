@@ -8,6 +8,7 @@
         <PreserveCompilationContext>false</PreserveCompilationContext>
         <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <RootNamespace>Chirp.Razor.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
