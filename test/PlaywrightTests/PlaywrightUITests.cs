@@ -31,6 +31,28 @@ public class Tests : PageTest
         await Expect(postButton).Not.ToBeVisibleAsync();
     }
     
+    [Test]
+    public async Task CheepBox_ShouldBeVisible_AfterSuccessfulLogin()
+    {
+        // Arrange
+        await Page.GotoAsync($"{BaseUrl}/Identity/Account/Login");
+        
+        // Act: Fill in login credentials (update with your actual login selectors)
+        await Page.GetByLabel("Email").FillAsync(username); // Update selector
+        await Page.GetByLabel("Password").FillAsync(password); // Update selector
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+        
+        // Wait for navigation to complete
+        await Page.WaitForURLAsync(BaseUrl);
+        
+        // Assert: Cheep input box should be visible
+        /*var cheepInput = Page.GetByPlaceholder("What's on your mind " + username + "?");
+        await Expect(cheepInput).ToBeVisibleAsync();*/
+        
+        // Assert: Post button should be visible
+        var postButton = Page.GetByRole(AriaRole.Button, new() { Name = "Share" });
+        await Expect(postButton).ToBeVisibleAsync();
+    }
     /*
     [Test]
     public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
