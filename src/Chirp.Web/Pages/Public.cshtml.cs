@@ -9,8 +9,11 @@ public class PublicModel : PageModel
     private readonly ICheepService _cheepService;
     private readonly IFollowRepository _followRepository;
 
-    public required List<CheepDTO> Cheeps { get; set; }
+    public List<CheepDTO> Cheeps { get; set; } = new();
     public List<string> Following { get; set; } = new();
+
+    public int CurrentPage { get; set; } = 1;
+    public bool HasMorePages { get; set; }
 
     [BindProperty]
     [Required(ErrorMessage = "Cheep message is required")]
@@ -27,7 +30,13 @@ public class PublicModel : PageModel
     {
         if (page < 1) page = 1;
 
+        CurrentPage = page;
+
+        // Get cheeps FIRST
         Cheeps = await _cheepService.GetCheeps(page);
+
+        // Then set HasMorePages correctly
+        HasMorePages = Cheeps.Count == 32;
 
         if (User.Identity!.IsAuthenticated)
             Following = await _followRepository.GetFollowing(User.Identity.Name!);
@@ -45,14 +54,12 @@ public class PublicModel : PageModel
         if (string.IsNullOrEmpty(currentUser))
             return RedirectToPage("/Account/Login");
 
-        var cheep = new CheepDTO
+        await _cheepService.PostCheep(new CheepDTO
         {
             Message = Text.Trim(),
             AuthorName = currentUser,
             Timestamp = DateTime.Now.ToString("g")
-        };
-
-        await _cheepService.PostCheep(cheep);
+        });
 
         Text = string.Empty;
         return RedirectToPage();
@@ -80,5 +87,19 @@ public class PublicModel : PageModel
     {
         await _cheepService.UnlikeCheep(cheepId, User.Identity!.Name!);
         return RedirectToPage();
+    }
+    
+
+    public IActionResult OnPostNext(int currentPage)
+    {
+        return Redirect("/?page=" + (currentPage + 1));
+    }
+
+    public IActionResult OnPostPrev(int currentPage)
+    {
+        int newPage = currentPage - 1;
+        if (newPage < 1) newPage = 1;
+
+        return Redirect("/?page=" + newPage);
     }
 }
