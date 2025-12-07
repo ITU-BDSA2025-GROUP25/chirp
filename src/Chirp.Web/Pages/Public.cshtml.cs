@@ -33,9 +33,8 @@ public class PublicModel : PageModel
         CurrentPage = page;
 
         // Get cheeps FIRST
-        Cheeps = await _cheepService.GetCheeps(page);
-
-        // Then set HasMorePages correctly
+        Cheeps = await _cheepService.GetCheeps(page, User.Identity!.Name);
+        
         HasMorePages = Cheeps.Count == 32;
 
         if (User.Identity!.IsAuthenticated)

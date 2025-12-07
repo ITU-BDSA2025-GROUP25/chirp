@@ -37,7 +37,17 @@
                     <small style="color:gray;">@cheep.Timestamp</small>
 
                     @* Like / Unlike *@
-                    @if (User.Identity!.IsAuthenticated)
+                    @if (cheep.HasLiked)
+                    {
+                        <form method="post"
+                              asp-page-handler="Unlike"
+                              asp-route-cheepId="@cheep.CheepId"
+                              style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-warning">💔 Unlike</button>
+                        </form>
+                    }
+                    else
                     {
                         <form method="post"
                               asp-page-handler="Like"
@@ -46,17 +56,10 @@
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-sm btn-success">❤️ Like</button>
                         </form>
-
-                        <form method="post"
-                              asp-page-handler="Unlike"
-                              asp-route-cheepId="@cheep.CheepId"
-                              style="display:inline;">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-sm btn-warning">Unlike</button>
-                        </form>
-
-                        <span>(@cheep.LikeCount likes)</span>
                     }
+
+                    <span>(@cheep.LikeCount likes)</span>
+                    
                 </li>
             }
         </ul>
