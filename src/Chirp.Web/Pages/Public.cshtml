@@ -77,27 +77,32 @@
                     @if (User.Identity!.IsAuthenticated)
                     {
                         <div class="cheep-actions">
-                            <form method="post"
-                                  asp-page-handler="Like"
-                                  asp-route-cheepId="@cheep.CheepId"
-                                  style="display:inline;">
-                                <input type="hidden" name="currentPage" value="@Model.CurrentPage"/>
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-sm btn-success">❤️ Like</button>
-                            </form>
 
-                            <form method="post"
-                                  asp-page-handler="Unlike"
-                                  asp-route-cheepId="@cheep.CheepId"
-                                  style="display:inline;">
-                                <input type="hidden" name="currentPage" value="@Model.CurrentPage"/>
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-sm btn-warning">Unlike</button>
-                            </form>
+                            @if (cheep.HasLiked)
+                            {
+                                <form method="post"
+                                      asp-page-handler="Unlike"
+                                      asp-route-cheepId="@cheep.CheepId"
+                                      style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-warning">👎 Unlike</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post"
+                                      asp-page-handler="Like"
+                                      asp-route-cheepId="@cheep.CheepId"
+                                      style="display:inline;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-success">👍️ Like</button>
+                                </form>
+                            }
 
                             <span>(@cheep.LikeCount likes)</span>
                         </div>
                     }
+
                 </li>
             }
         </ul>
