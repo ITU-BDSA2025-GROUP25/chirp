@@ -11,6 +11,11 @@ namespace Chirp.Razor.Pages
         public List<CheepDTO> Cheeps { get; set; } = new();
         public List<string> Following { get; set; } = new();
 
+        public int CurrentPage { get; set; } = 1;
+        public bool HasMorePages { get; set; }
+
+        private const int PageSize = 32;
+
         public PrivateModel(ICheepService cheepService, IFollowRepository followRepository)
         {
             _cheepService = cheepService;
@@ -19,23 +24,37 @@ namespace Chirp.Razor.Pages
 
         public async Task OnGet()
         {
+            int page = 1;
+            var pageValue = Request.Query["page"].ToString();
+            if (!string.IsNullOrEmpty(pageValue) && int.TryParse(pageValue, out var parsed) && parsed > 0)
+            {
+                page = parsed;
+            }
+
+            CurrentPage = page;
+
             var username = User.Identity?.Name;
             if (string.IsNullOrEmpty(username))
                 return;
 
             Following = await _followRepository.GetFollowing(username);
-            Cheeps = await _cheepService.GetPrivateTimeline(username);
+
+            Cheeps = await _cheepService.GetPrivateTimeline(username, page);
+
+            // If we got a full page, assume there may be more
+            HasMorePages = Cheeps.Count == PageSize;
         }
 
         public async Task<IActionResult> OnPostUnfollowAsync(string user)
         {
             var currentUser = User.Identity?.Name;
-            if (string.IsNullOrEmpty(currentUser)) return RedirectToPage("/Account/Login");
+            if (currentUser == null)
+                return RedirectToPage("/Account/Login");
 
             await _followRepository.Unfollow(currentUser, user);
             return RedirectToPage();
         }
-        
+
         public async Task<IActionResult> OnPostLike(int cheepId)
         {
             await _cheepService.LikeCheep(cheepId, User.Identity!.Name!);
@@ -47,6 +66,5 @@ namespace Chirp.Razor.Pages
             await _cheepService.UnlikeCheep(cheepId, User.Identity!.Name!);
             return RedirectToPage();
         }
-
     }
 }
