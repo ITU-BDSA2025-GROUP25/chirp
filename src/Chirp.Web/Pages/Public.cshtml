@@ -40,6 +40,16 @@
             </li>
         </ul>
     }
+    
+    <div style="margin-bottom: 10px;">
+        <form method="get" style="display:inline;">
+            <button name="sort" value="newest" class="btn btn-sm btn-secondary">Newest</button>
+        </form>
+
+        <form method="get" style="display:inline;">
+            <button name="sort" value="liked" class="btn btn-sm btn-secondary">Most Liked</button>
+        </form>
+    </div>
 
     @if (Model.Cheeps.Any())
     {
