@@ -21,10 +21,23 @@
         <ul class="cheeps">
             <li class="cheepbox">
                 <h3>What's on your mind @(User.Identity!.Name)?</h3>
+
                 <form method="post">
                     <input type="hidden" name="currentPage" value="@Model.CurrentPage"/>
-                    <input type="text" asp-for="Text"/>
-                    <input type="submit" value="Share"/>
+
+                    <!-- input from user with live counter -->
+                    <input type="text"
+                           asp-for="Text"
+                           id="cheepInput"
+                           maxlength="160"
+                           oninput="updateCounter()"
+                           style="width:100%;"/>
+
+                    <div id="charCounter" style="font-size:0.9em; color:gray;">
+                        0 / 160 characters
+                    </div>
+
+                    <input type="submit" value="Share" class="btn btn-primary" />
                 </form>
             </li>
         </ul>
@@ -71,7 +84,6 @@
 
                     <p class="cheep-message">@cheep.Message</p>
                     <small>— @cheep.Timestamp</small>
-                    
 
                     @* LIKE / UNLIKE *@
                     @if (User.Identity!.IsAuthenticated)
@@ -95,7 +107,7 @@
                                       asp-route-cheepId="@cheep.CheepId"
                                       style="display:inline;">
                                     @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-sm btn-success">👍️ Like</button>
+                                    <button type="submit" class="btn btn-sm btn-success">👍 Like</button>
                                 </form>
                             }
 
@@ -138,3 +150,28 @@
         <em>There are no cheeps so far.</em>
     }
 </div>
+
+<!-- char counter script -->
+<script>
+    function updateCounter() {
+        const input = document.getElementById("cheepInput");
+        const counter = document.getElementById("charCounter");
+
+        const used = input.value.length;
+        const limit = 160;
+        const remaining = limit - used;
+
+        counter.textContent = `${used} / ${limit} characters`;
+
+        //no words left turn to red
+        if (remaining <= 0) {
+            counter.style.color = "red";
+        } 
+        else if (remaining < 20) {
+            counter.style.color = "orange";
+        } 
+        else {
+            counter.style.color = "gray";
+        }
+    }
+</script>
