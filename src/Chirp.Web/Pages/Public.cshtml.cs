@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Pages;
 
@@ -26,20 +27,25 @@ public class PublicModel : PageModel
         _followRepository = followRepository;
     }
 
-    public async Task OnGet([FromQuery] int page = 1)
+    public async Task OnGet([FromQuery] int page = 1, [FromQuery] string? sort = null)
     {
         if (page < 1) page = 1;
-
         CurrentPage = page;
 
-        // Get cheeps FIRST
         Cheeps = await _cheepService.GetCheeps(page, User.Identity!.Name);
-        
+
+        Cheeps = sort switch
+        {
+            "liked" => Cheeps.OrderByDescending(c => c.LikeCount).ToList(),
+            _ => Cheeps.OrderByDescending(c => DateTime.Parse(c.Timestamp)).ToList()
+        };
+
         HasMorePages = Cheeps.Count == 32;
 
         if (User.Identity!.IsAuthenticated)
             Following = await _followRepository.GetFollowing(User.Identity.Name!);
     }
+
 
     public async Task<IActionResult> OnPost()
     {
@@ -87,7 +93,6 @@ public class PublicModel : PageModel
         await _cheepService.UnlikeCheep(cheepId, User.Identity!.Name!);
         return RedirectToPage();
     }
-    
 
     public IActionResult OnPostNext(int currentPage)
     {

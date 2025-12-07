@@ -32,6 +32,8 @@ namespace Chirp.Razor.Pages
             }
 
             CurrentPage = page;
+            
+            string? sort = Request.Query["sort"];
 
             var username = User.Identity?.Name;
             if (string.IsNullOrEmpty(username))
@@ -41,9 +43,19 @@ namespace Chirp.Razor.Pages
 
             Cheeps = await _cheepService.GetPrivateTimeline(username, page);
 
-            // If we got a full page, assume there may be more
+            if (sort == "liked")
+            {
+                Cheeps = Cheeps
+                    .OrderByDescending(c => c.LikeCount)
+                    .ThenByDescending(c => c.Timestamp)
+                    .ToList();
+            }
+
+
+            // If full page, assume more
             HasMorePages = Cheeps.Count == PageSize;
         }
+
 
         public async Task<IActionResult> OnPostUnfollowAsync(string user)
         {
