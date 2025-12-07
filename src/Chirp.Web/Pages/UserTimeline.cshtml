@@ -3,11 +3,11 @@
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "Shared/_Layout";
-    var routeName = HttpContext.GetRouteValue("author");
+    var routeName = HttpContext.GetRouteValue("author")?.ToString();
 }
 
 <div>
-    <h2> @routeName's Timeline </h2>
+    <h2>@routeName's Timeline</h2>
 
     @if (Model.Cheeps.Any())
     {
@@ -25,6 +25,31 @@
                 </li>
             }
         </ul>
+
+        <!-- PAGINATION -->
+        <div style="margin-top:20px; display:flex; align-items:center; gap:12px;">
+
+            <!-- PREVIOUS -->
+            @if (Model.CurrentPage > 1)
+            {
+                <form method="get" action="/@routeName" style="margin:0;">
+                    <input type="hidden" name="page" value="@(Model.CurrentPage - 1)"/>
+                    <button type="submit" class="btn btn-secondary">⬅ Previous</button>
+                </form>
+            }
+
+            <span>Page @Model.CurrentPage</span>
+
+            <!-- NEXT -->
+            @if (Model.HasMorePages)
+            {
+                <form method="get" action="/@routeName" style="margin:0;">
+                    <input type="hidden" name="page" value="@(Model.CurrentPage + 1)"/>
+                    <button type="submit" class="btn btn-primary">Next ➡</button>
+                </form>
+            }
+
+        </div>
     }
     else
     {

@@ -1,6 +1,7 @@
 ﻿@page "/private"
 @model Chirp.Razor.Pages.PrivateModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
     ViewData["Title"] = "Your Private Timeline";
     Layout = "Shared/_Layout";
@@ -15,32 +16,34 @@
         <ul class="cheeps">
             @foreach (var cheep in Model.Cheeps)
             {
-                <li style="position: relative; padding-right: 80px;"> <!-- space for button -->
+                <li style="position: relative; padding-right: 80px;">
                     <strong>
                         <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
                     </strong>
 
-                    @* Unfollow button on top right of each cheep *@
+                    @* Unfollow button *@
                     @if (User.Identity!.IsAuthenticated)
                     {
                         <form method="post"
                               asp-page-handler="Unfollow"
                               asp-route-user="@cheep.AuthorName"
                               style="position: absolute; top: 0; right: 0;">
+                            @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-sm btn-secondary">Unfollow</button>
                         </form>
                     }
 
                     <p>@cheep.Message</p>
-                    <small>— @cheep.Timestamp</small>
+                    <small style="color:gray;">@cheep.Timestamp</small>
 
-                    @* Like / Unlike buttons *@
+                    @* Like / Unlike *@
                     @if (User.Identity!.IsAuthenticated)
                     {
                         <form method="post"
                               asp-page-handler="Like"
                               asp-route-cheepId="@cheep.CheepId"
                               style="display:inline;">
+                            @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-sm btn-success">❤️ Like</button>
                         </form>
 
@@ -48,6 +51,7 @@
                               asp-page-handler="Unlike"
                               asp-route-cheepId="@cheep.CheepId"
                               style="display:inline;">
+                            @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-sm btn-warning">Unlike</button>
                         </form>
 
@@ -56,6 +60,29 @@
                 </li>
             }
         </ul>
+
+        <div style="margin-top:20px; display:flex; align-items:center; gap:12px;">
+
+            @* PREVIOUS BUTTON *@
+            @if (Model.CurrentPage > 1)
+            {
+                <form method="get" action="/private" style="margin:0;">
+                    <input type="hidden" name="page" value="@(Model.CurrentPage - 1)"/>
+                    <button type="submit" class="btn btn-secondary">⬅ Previous</button>
+                </form>
+            }
+
+            <span>Page @Model.CurrentPage</span>
+
+            @* NEXT BUTTON *@
+            @if (Model.HasMorePages)
+            {
+                <form method="get" action="/private" style="margin:0;">
+                    <input type="hidden" name="page" value="@(Model.CurrentPage + 1)"/>
+                    <button type="submit" class="btn btn-primary">Next ➡</button>
+                </form>
+            }
+        </div>
     }
     else
     {
