@@ -1,34 +1,69 @@
 ﻿@using Chirp.Razor
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @inject UserManager<ApplicationUser> UserManager
-<ul>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<ul class="nav flex-column mt-2">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li>
-            <a class="nav-link text-dark" asp-area="Identity"
-               asp-page="/Account/Manage/Index" title="Manage">
-                Hello @User.Identity.Name!</a>
-        </li>
+        <!-- ABOUT ME -->
         <li class="nav-item">
-            <form class="form-inline" asp-page="/Account/Logout"
+            <a class="nav-link text-dark"
+               asp-area="Identity"
+               asp-page="/Account/Manage/Index">
+                About Me
+            </a>
+        </li>
+
+        <!-- PUBLIC TIMELINE -->
+        <li class="nav-item">
+            <a class="nav-link text-dark"
+               asp-page="/Public">
+                Public Timeline
+            </a>
+        </li>
+
+        <!-- PRIVATE TIMELINE -->
+        <li class="nav-item">
+            <a class="nav-link text-dark"
+               asp-page="/Private">
+                Private Timeline
+            </a>
+        </li>
+
+        <!-- LOGOUT -->
+        <li class="nav-item mt-1">
+            <form class="form-inline"
+                  asp-page="/Account/Logout"
                   asp-route-returnUrl="@Url.Page("/", new { area = "" })"
-                  asp-area="Identity" method="post" >
-                <button class="nav-link btn btn-link text-dark"
-                        type="submit">Logout</button>
+                  asp-area="Identity"
+                  method="post">
+                <button class="nav-link btn btn-link text-dark p-0"
+                        type="submit">
+                    Logout
+                </button>
             </form>
         </li>
     }
     else
     {
-        <li class="nav-li-a">
-            <a class="nav-link text-dark" asp-area="Identity"
-               asp-page="/Account/Register">Register</a>
+        <!-- REGISTER -->
+        <li class="nav-item">
+            <a class="nav-link text-dark"
+               asp-area="Identity"
+               asp-page="/Account/Register">
+                Register
+            </a>
         </li>
-        <li class="nav-li-a">
-            <a class="nav-link text-dark" asp-area="Identity"
-               asp-page="/Account/Login">Login</a>
+
+        <!-- LOGIN -->
+        <li class="nav-item">
+            <a class="nav-link text-dark"
+               asp-area="Identity"
+               asp-page="/Account/Login">
+                Login
+            </a>
         </li>
     }
 </ul>
