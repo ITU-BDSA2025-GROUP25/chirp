@@ -1,8 +1,9 @@
 ﻿using Chirp.Razor;
+using Chirp.Infrastructure;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Razor.Tests;
+namespace Chirp.Tests;
 
 //USE THIS DATABASE FOR IN-MEMORY TESTS
 
