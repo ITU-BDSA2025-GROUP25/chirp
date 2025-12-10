@@ -16,7 +16,7 @@ public class DatabaseCollection : ICollectionFixture<DatabaseFixture>
     // to be the place to apply [CollectionDefinition] and all the
     // ICollectionFixture<> interfaces.
 }
-// Your Test Class with Collection Attribute
+
 [Collection("Database collection")]
 public class AuthorRepositoryTests
 {

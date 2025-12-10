@@ -68,16 +68,10 @@ public class TestAPI : IClassFixture<WebDatabaseFixture>
                 break;
             }
         }
-        
-        //Fix this unittest
-        //Assert.NotNull(contentWithHelge); // ensure Helge appears on at least one page
-        //Assert.Contains("Helge", contentWithHelge!);
-        // If you also want to assert the exact message text, and it might be on a later page, uncomment the next line:
-        // Assert.Contains("Hello, BDSA students!", contentWithHelge!);
     }
 
-    /*[Fact]
-    public async Task JacqualineTimelineContainsCorrectCheep()  
+    /*[Fact] Does NOT work... Fix later... maybe
+    public async Task AdrianTimelineContainsCorrectCheep()  
     {
         var response = await _client.GetAsync("/Adrian");
         response.EnsureSuccessStatusCode();
@@ -113,7 +107,7 @@ public class TestAPI : IClassFixture<WebDatabaseFixture>
             _testOutputHelper.WriteLine($"  - '{cheep.Text}' by {cheep.Author?.Name} at {cheep.TimeStamp}");
         }
         
-        // Also check what tables exist
+        //check if tables exist
         try
         {
             var connection = _fixture.Context.Database.GetDbConnection();
@@ -139,6 +133,6 @@ public class TestAPI : IClassFixture<WebDatabaseFixture>
         
         _testOutputHelper.WriteLine("===================================");
         
-        Assert.True(true); // Just to mark test as passed
+        Assert.True(true); //just to mark test as passed
     }
 }
