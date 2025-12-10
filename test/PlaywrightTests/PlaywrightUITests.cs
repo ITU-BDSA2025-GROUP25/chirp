@@ -1,18 +1,15 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 using Microsoft.Playwright.NUnit;
-using NUnit.Framework;
 
-namespace Chirp.Razor.Tests.PlaywrightTests;
+namespace PlaywrightTests;
 
 [Parallelizable(ParallelScope.Self)]
 [TestFixture]
 public class Tests : PageTest
 {
     private const string BaseUrl = "https://bdsagroup25chirprazor3-d4dha4bnb6dwgga4.norwayeast-01.azurewebsites.net/";
-    private const string username = "testuser@itu.dk";
-    private const string password = "EArzCzGhRe4Hryn!";
+    private const string Username = "testuser@itu.dk";
+    private const string Password = "EArzCzGhRe4Hryn!";
     
     [Test]
     public async Task CheepBox_ShouldNotBeVisible_WhenUserIsNotLoggedIn()
@@ -90,8 +87,8 @@ public class Tests : PageTest
         await Page.GotoAsync($"{BaseUrl}/Identity/Account/Login");
         
         // Act: Fill in login credentials (update with your actual login selectors)
-        await Page.GetByLabel("Email").FillAsync(username); // Update selector
-        await Page.GetByLabel("Password").FillAsync(password); // Update selector
+        await Page.GetByLabel("Email").FillAsync(Username); // Update selector
+        await Page.GetByLabel("Password").FillAsync(Password); // Update selector
         await Page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
         
         // Wait for navigation to complete

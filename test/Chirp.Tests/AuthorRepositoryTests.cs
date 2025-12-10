@@ -2,10 +2,22 @@ using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Razor;
-using Chirp.Razor.Tests;
+using Chirp.Tests;
 using Xunit;
 using Assert = Xunit.Assert;
 
+namespace Chirp.Tests;
+
+// Collection Definition - ADD THIS AS A SEPARATE CLASS
+[CollectionDefinition("Database collection")]
+public class DatabaseCollection : ICollectionFixture<DatabaseFixture>
+{
+    // This class has no code, and is never created. Its purpose is simply
+    // to be the place to apply [CollectionDefinition] and all the
+    // ICollectionFixture<> interfaces.
+}
+
+[Collection("Database collection")]
 public class AuthorRepositoryTests
 {
     private readonly DatabaseFixture fix;

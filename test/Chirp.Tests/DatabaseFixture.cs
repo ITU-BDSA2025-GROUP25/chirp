@@ -1,21 +1,23 @@
-﻿using Chirp.Razor;
+﻿using System;
+using Chirp.Razor;
+using Chirp.Infrastructure;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Razor.Tests;
+namespace Chirp.Tests;
 
 //USE THIS DATABASE FOR IN-MEMORY TESTS
 
 /* Insert this at the start of the class :
  
     private readonly DatabaseFixture fix;
-        private readonly AuthorRepository repo;
+    private readonly AuthorRepository repo;
 
-        public AuthorRepositoryTests(DatabaseFixture fixture)
-        {
-            fix = fixture;
-            repo = new AuthorRepository(fix.Context);
-        }
+    public AuthorRepositoryTests(DatabaseFixture fixture)
+    {
+        fix = fixture;
+        repo = new AuthorRepository(fix.Context);
+    }
 */
 
 public class DatabaseFixture : IDisposable
@@ -31,11 +33,10 @@ public class DatabaseFixture : IDisposable
         
         var options = new DbContextOptionsBuilder<ChirpDbContext>().UseSqlite(_connection).Options;
             
-        Context = new ChirpDbContext(options); // Remove 'using' - we need to keep it alive
-        Context.Database.EnsureCreated(); // Use synchronous version, remove Async
+        Context = new ChirpDbContext(options);
+        Context.Database.EnsureCreated(); 
         
-        // You need to provide IAuthorRepository - create a mock or real one
-        IAuthorRepository authorRepository = new AuthorRepository(Context); // Assuming you have this
+        IAuthorRepository authorRepository = new AuthorRepository(Context);
         Repository = new CheepRepository(Context, authorRepository);
         
         SeedTestData();
@@ -43,14 +44,15 @@ public class DatabaseFixture : IDisposable
 
     private void SeedTestData()
     {
-        // Add your test data here - using proper C# property names (PascalCase)
+        
+        //insert data
         var authors = new[]
         {
-            new Author { Name = "Helge", Email = "helge@example.com" }, // PascalCase
-            new Author { Name = "Adrian", Email = "adrian@example.com" }, // PascalCase
-            new Author { Name = "TestUser", Email = "test@example.com" } // PascalCase
+            new Author { Name = "Helge", Email = "helge@example.com" },
+            new Author { Name = "Adrian", Email = "adrian@example.com" },
+            new Author { Name = "TestUser", Email = "test@example.com" }
         };
-        Context.Authors.AddRange(authors); // PascalCase
+        Context.Authors.AddRange(authors);
 
         var cheeps = new[]
         {
@@ -70,9 +72,9 @@ public class DatabaseFixture : IDisposable
                 TimeStamp = DateTime.UtcNow 
             }
         };
-        Context.Cheeps.AddRange(cheeps); // PascalCase
+        Context.Cheeps.AddRange(cheeps);
         
-        Context.SaveChanges(); // Save all test data
+        Context.SaveChanges();
     }
 
     public void Dispose()
