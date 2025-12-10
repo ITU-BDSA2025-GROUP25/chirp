@@ -33,17 +33,6 @@ public class WebDatabaseFixture : IDisposable
         _webAppFactory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(builder =>
             {
-                builder.ConfigureAppConfiguration((context, config) =>
-                {
-                    config.AddInMemoryCollection(new Dictionary<string, string?>
-                    {
-                        ["authentication:github:clientId"] = "test-github-client-id",
-                        ["authentication:github:clientSecret"] = "test-github-client-secret",
-                        ["ConnectionStrings:DefaultConnection"] = "DataSource=:memory:",
-                        ["ASPNETCORE_ENVIRONMENT"] = "Development"
-                    });
-                });
-
                 builder.ConfigureServices(services =>
                 {
                     // Use our connection
