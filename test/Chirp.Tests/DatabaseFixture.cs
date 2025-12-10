@@ -11,13 +11,13 @@ namespace Chirp.Tests;
 /* Insert this at the start of the class :
  
     private readonly DatabaseFixture fix;
-        private readonly AuthorRepository repo;
+    private readonly AuthorRepository repo;
 
-        public AuthorRepositoryTests(DatabaseFixture fixture)
-        {
-            fix = fixture;
-            repo = new AuthorRepository(fix.Context);
-        }
+    public AuthorRepositoryTests(DatabaseFixture fixture)
+    {
+        fix = fixture;
+        repo = new AuthorRepository(fix.Context);
+    }
 */
 
 public class DatabaseFixture : IDisposable
@@ -45,6 +45,7 @@ public class DatabaseFixture : IDisposable
 
     private void SeedTestData()
     {
+        
         // Add your test data here - using proper C# property names (PascalCase)
         var authors = new[]
         {

@@ -3,20 +3,22 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Xunit;
+using Xunit.Abstractions;
 using Assert = Xunit.Assert;
 
-namespace Chirp.Razor.Tests;
+namespace Chirp.Tests;
 
-public class PaginationTests : IClassFixture<WebApplicationFactory<Program>>
+public class PaginationTests : IClassFixture<WebDatabaseFixture>
 {
     private readonly HttpClient _client;
 
-    public PaginationTests(WebApplicationFactory<Program> factory)
+    public PaginationTests(WebDatabaseFixture fixture)
     {
-        _client = factory.CreateClient();
+        _client = fixture.CreateHttpClient();
     }
 
     [Xunit.Theory]
+    [InlineData(0)]
     [InlineData(1)]
     [InlineData(2)]
     [InlineData(3)]
