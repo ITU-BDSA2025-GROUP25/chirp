@@ -30,17 +30,19 @@ jobs:
         run: dotnet build Chirp.CLI.sln -c Release --no-restore
 
       # Run unit tests
-      - name: Run tests
-        env:
-          GitHub__ClientId: ${{ secrets.GITHUBCLIENTID }}
-          GitHub__ClientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
-        run: dotnet test Chirp.CLI.sln --configuration Release --no-build
+      - name: Run unit tests
+        run: dotnet test test/Chirp.Tests/Chirp.Tests.csproj -c Release --no-build --verbosity normal
+        
+      # Run Playwright tests
+      - name: Run Playwright tests
+        run: dotnet test test/PlaywrightTests/PlaywrightTests.csproj -c Release --no-build --verbosity normal
 
       # GitHub OAuth authentication test
       - name: Test GitHub OAuth authentication
         run: |
           export GitHub__ClientId="${{ secrets.GITHUBCLIENTID }}"
           export GitHub__ClientSecret="${{ secrets.GITHUBCLIENTSECRET }}"
+          dotnet test --no-build --verbosity normal
 
       # Publish the Web project
       - name: Publish Chirp Web App
