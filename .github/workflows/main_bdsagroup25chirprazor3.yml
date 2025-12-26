@@ -35,7 +35,7 @@ jobs:
         
       # Run Playwright tests
       - name: Run Playwright tests
-        run: dotnet test test/PlaywrightTests/PlaywrightTests.csproj -c Release --verbosity normal
+        run: dotnet test test/PlaywrightTests/PlaywrightTests.csproj -c Release --no-build --verbosity normal
 
       # GitHub OAuth authentication test
       - name: Test GitHub OAuth authentication
