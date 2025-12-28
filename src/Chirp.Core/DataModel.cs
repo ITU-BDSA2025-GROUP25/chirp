@@ -47,15 +47,15 @@ public class Follow
 {
     public int Id { get; set; }
 
-    public string Follower { get; set; }
-    public string Followee { get; set; }
+    public required string Follower { get; set; }
+    public required string Followee { get; set; }
 }
 
 public class Like
 {
     public int Id { get; set; }
     public int CheepId { get; set; }
-    public string Username { get; set; }
+    public required string Username { get; set; }
 }
 
 public class ApplicationUser : IdentityUser
@@ -69,13 +69,13 @@ public class ApplicationUser : IdentityUser
 // not currently used cause Author doesnt leave this layer
 public class AuthorDTO
 {
-    public string Name { get; set; }
-    public string Email { get; set; }
+    public required string Name { get; set; }
+    public required string Email { get; set; }
 }
 
 // not currently used cause Author doesnt leave this layer
 public class FollowDTO
 {
-    public string Follower { get; set; }
-    public string Followee { get; set; }
+    public required string Follower { get; set; }
+    public required string Followee { get; set; }
 }

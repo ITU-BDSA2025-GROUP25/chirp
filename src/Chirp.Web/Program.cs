@@ -33,8 +33,8 @@ builder.Services
 builder.Services.AddAuthentication()
     .AddGitHub(options =>
     {
-        options.ClientId = builder.Configuration["authentication:github:clientId"];
-        options.ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+        options.ClientId = builder.Configuration["authentication:github:clientId"]!;
+        options.ClientSecret = builder.Configuration["authentication:github:clientSecret"]!;
         options.CallbackPath = "/signin-github";
     });
 

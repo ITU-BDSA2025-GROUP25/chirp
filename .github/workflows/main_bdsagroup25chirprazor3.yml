@@ -36,6 +36,7 @@ jobs:
           GitHub__ClientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
         run: dotnet test Chirp.CLI.sln --configuration Release --no-build
 
+
       # GitHub OAuth authentication test
       - name: Test GitHub OAuth authentication
         run: |
