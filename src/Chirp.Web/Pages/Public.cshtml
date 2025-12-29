@@ -18,7 +18,7 @@
         <!-- Share box inside UL -->
         <ul class="cheeps">
             <li class="cheepbox">
-                <h3>What's on your mind @(User.Identity!.Name)?</h3>
+                <h3>What's on your mind @Model.CurrentDisplayName?</h3>
 
                 <form method="post">
                     <input type="hidden" name="currentPage" value="@Model.CurrentPage"/>
@@ -59,17 +59,17 @@
                 <li class="cheepbox">
                     <div class="cheep-header" style="display:flex; align-items:center; justify-content:space-between;">
                         <strong>
-                            <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
+                            <a href="/@cheep.AuthorKey">@cheep.AuthorDisplayName</a>
                         </strong>
 
                         @* FOLLOW / UNFOLLOW *@
-                        @if (User.Identity!.IsAuthenticated && User.Identity!.Name != cheep.AuthorName)
+                        @if (User.Identity!.IsAuthenticated && User.Identity!.Name != cheep.AuthorKey)
                         {
-                            if (Model.Following.Contains(cheep.AuthorName))
+                            if (Model.Following.Contains(cheep.AuthorKey))
                             {
                                 <form method="post"
                                       asp-page-handler="Unfollow"
-                                      asp-route-user="@cheep.AuthorName"
+                                      asp-route-user="@cheep.AuthorKey"
                                       style="display:inline;">
                                     <input type="hidden" name="currentPage" value="@Model.CurrentPage"/>
                                     @Html.AntiForgeryToken()
@@ -80,7 +80,7 @@
                             {
                                 <form method="post"
                                       asp-page-handler="Follow"
-                                      asp-route-user="@cheep.AuthorName"
+                                      asp-route-user="@cheep.AuthorKey"
                                       style="display:inline;">
                                     <input type="hidden" name="currentPage" value="@Model.CurrentPage"/>
                                     @Html.AntiForgeryToken()
