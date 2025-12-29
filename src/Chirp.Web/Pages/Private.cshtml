@@ -8,7 +8,10 @@
 }
 
 <div>
-    <h2>Your Private Timeline</h2>
+    <h2>
+        @Model.CurrentDisplayName
+        <span class="private-timeline">private timeline</span>
+    </h2>
     
     <div style="margin-bottom: 10px;">
         <form method="get" style="display:inline;">
@@ -27,7 +30,7 @@
             {
                 <li style="position: relative; padding-right: 80px;">
                     <strong>
-                        <a href="/@cheep.AuthorName">@cheep.AuthorName</a>
+                        <a href="/@cheep.AuthorKey">@cheep.AuthorDisplayName</a>
                     </strong>
 
                     @* Unfollow button *@
@@ -35,7 +38,7 @@
                     {
                         <form method="post"
                               asp-page-handler="Unfollow"
-                              asp-route-user="@cheep.AuthorName"
+                              asp-route-user="@cheep.AuthorKey"
                               style="position: absolute; top: 0; right: 0;">
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-sm btn-secondary">Unfollow</button>
