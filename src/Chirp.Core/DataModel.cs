@@ -34,7 +34,7 @@ public class CheepDTO
     public required string Message { get; set; }
 
     public int CheepId { get; set; }
-    
+
     //Internal key by Email
     public required string AuthorKey { get; set; }
 
@@ -68,7 +68,6 @@ public class ApplicationUser : IdentityUser
     [Required] 
     [StringLength(20)] 
     public string DisplayName { get; set; } = "";
-    
 }
 
 // not currently used cause Author doesnt leave this layer
