@@ -34,7 +34,12 @@ public class CheepDTO
     public required string Message { get; set; }
 
     public int CheepId { get; set; }
-    public required string AuthorName { get; set; }
+    
+    //Internal key by Email
+    public required string AuthorKey { get; set; }
+
+    //username displayed in ui
+    public required string AuthorDisplayName { get; set; }
     
     public required string Timestamp { get; set; }
     
@@ -60,10 +65,10 @@ public class Like
 
 public class ApplicationUser : IdentityUser
 {
-    // You can add custom properties here later if needed
-    // For example:
-    // public string DisplayName { get; set; }
-    // public DateTime BirthDate { get; set; }
+    [Required] 
+    [StringLength(20)] 
+    public string DisplayName { get; set; } = "";
+    
 }
 
 // not currently used cause Author doesnt leave this layer
