@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Chirp.Infrastructure;
+using Chirp.Razor;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Pages;
 
@@ -9,9 +11,13 @@ public class PublicModel : PageModel
 {
     private readonly ICheepService _cheepService;
     private readonly IFollowRepository _followRepository;
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public List<CheepDTO> Cheeps { get; set; } = new();
     public List<string> Following { get; set; } = new();
+
+    //for header display
+    public string CurrentDisplayName { get; private set; } = "";
 
     public int CurrentPage { get; set; } = 1;
     public bool HasMorePages { get; set; }
@@ -21,10 +27,14 @@ public class PublicModel : PageModel
     [StringLength(160, ErrorMessage = "Cheep cannot exceed 160 characters")]
     public required string Text { get; set; }
 
-    public PublicModel(ICheepService cheepService, IFollowRepository followRepository)
+    public PublicModel(
+        ICheepService cheepService,
+        IFollowRepository followRepository,
+        UserManager<ApplicationUser> userManager)
     {
         _cheepService = cheepService;
         _followRepository = followRepository;
+        _userManager = userManager;
     }
 
     public async Task OnGet([FromQuery] int page = 1, [FromQuery] string? sort = null)
@@ -32,7 +42,14 @@ public class PublicModel : PageModel
         if (page < 1) page = 1;
         CurrentPage = page;
 
-        Cheeps = await _cheepService.GetCheeps(page, User.Identity!.Name);
+        // Resolve display name for header
+        if (User.Identity?.IsAuthenticated == true)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            CurrentDisplayName = user?.DisplayName ?? User.Identity!.Name!;
+        }
+
+        Cheeps = await _cheepService.GetCheeps(page, User.Identity?.Name);
 
         Cheeps = sort switch
         {
@@ -42,10 +59,9 @@ public class PublicModel : PageModel
 
         HasMorePages = Cheeps.Count == 32;
 
-        if (User.Identity!.IsAuthenticated)
+        if (User.Identity?.IsAuthenticated == true)
             Following = await _followRepository.GetFollowing(User.Identity.Name!);
     }
-
 
     public async Task<IActionResult> OnPost()
     {
@@ -55,14 +71,15 @@ public class PublicModel : PageModel
             return Page();
         }
 
-        var currentUser = User.Identity?.Name;
-        if (string.IsNullOrEmpty(currentUser))
+        var currentUserKey = User.Identity?.Name; // internal key (email)
+        if (string.IsNullOrEmpty(currentUserKey))
             return RedirectToPage("/Account/Login");
 
         await _cheepService.PostCheep(new CheepDTO
         {
             Message = Text.Trim(),
-            AuthorName = currentUser,
+            AuthorKey = currentUserKey,
+            AuthorDisplayName = currentUserKey,
             Timestamp = DateTime.Now.ToString("g")
         });
 

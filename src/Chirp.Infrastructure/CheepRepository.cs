@@ -30,13 +30,13 @@ public class CheepRepository : ICheepRepository
         if (newCheep.Message.Length > 160)
             throw new ArgumentException("Cheep cannot exceed 160 characters");
 
-        var author = await _authorRepository.FindByName(newCheep.AuthorName);
+        var author = await _authorRepository.FindByName(newCheep.AuthorKey);
         if (author == null)
         {
             author = await _authorRepository.CreateAuthor(new Author
             {
-                Name = newCheep.AuthorName,
-                Email = "unknown@email.com"
+                Name = newCheep.AuthorKey,
+                Email = newCheep.AuthorKey
             });
         }
 
@@ -64,7 +64,9 @@ public class CheepRepository : ICheepRepository
                 CheepId = c.CheepId,
                 Message = c.Text,
                 Timestamp = c.TimeStamp.ToString("g"),
-                AuthorName = c.Author.Name
+                // internal key email
+                AuthorKey = c.Author.Name,
+                AuthorDisplayName = c.Author.Name
             })
             .ToListAsync();
     }
@@ -83,7 +85,8 @@ public class CheepRepository : ICheepRepository
                 CheepId = c.CheepId,
                 Message = c.Text,
                 Timestamp = c.TimeStamp.ToString("g"),
-                AuthorName = c.Author.Name
+                AuthorKey = c.Author.Name,
+                AuthorDisplayName = c.Author.Name
             })
             .ToListAsync();
     }
@@ -102,7 +105,8 @@ public class CheepRepository : ICheepRepository
                 CheepId = c.CheepId,
                 Message = c.Text,
                 Timestamp = c.TimeStamp.ToString("g"),
-                AuthorName = c.Author.Name
+                AuthorKey = c.Author.Name,
+                AuthorDisplayName = c.Author.Name
             })
             .ToListAsync();
     }
