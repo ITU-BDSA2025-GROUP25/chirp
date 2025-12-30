@@ -1,0 +1,46 @@
+@page
+@model Chirp.Web.Areas.Identity.Pages.Account.Manage.DeletePersonalDataModel
+@{
+    ViewData["Title"] = "Forget me!";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="alert alert-warning" role="alert">
+    <p><strong>This action cannot be undone.</strong></p>
+    <p>
+        This will delete your login account, remove follow / like relationships, and anonymize your author identity.
+        Your cheeps may remain, but will no longer be linked to you.
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+        <form method="post">
+            @if (Model.RequirePassword)
+            {
+                <p class="text-muted">Please confirm your password to continue.</p>
+
+                <div class="mb-3">
+                    <label asp-for="Input.Password" class="form-label"></label>
+                    <input asp-for="Input.Password"
+                           class="form-control"
+                           type="password"
+                           autocomplete="current-password"
+                           placeholder="Enter your password"/>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+            }
+
+            <button class="btn btn-danger" type="submit">Forget me!</button>
+            <a class="btn btn-secondary ms-2" asp-page="./PersonalData">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

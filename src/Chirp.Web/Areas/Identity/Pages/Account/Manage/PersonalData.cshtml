@@ -1,0 +1,62 @@
+
+@page
+@model Chirp.Web.Areas.Identity.Pages.Account.Manage.DeletePersonalDataModel
+
+// This page locally overrides the scaffolded ASP.NET Identity
+// DeletePersonalData page to add Chirp domain cleanup and anonymization.
+@{
+    ViewData["Title"] = "Forget me!";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="alert alert-warning" role="alert">
+    <p><strong>This action cannot be undone.</strong></p>
+    <p>
+        This will delete your login account, remove follow / like relationships,
+        and anonymize your author identity.
+        Your cheeps may remain, but will no longer be linked to you.
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+        <form method="post">
+            @if (Model.RequirePassword)
+            {
+                <p class="text-muted">
+                    Please confirm your password to continue.
+                </p>
+
+                <div class="mb-3">
+                    <label asp-for="Input.Password" class="form-label"></label>
+                    <input asp-for="Input.Password"
+                           class="form-control"
+                           type="password"
+                           autocomplete="current-password"
+                           placeholder="Enter your password"/>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+            }
+
+            <!-- Larde pink confirmation button -->
+            <button type="submit"
+                    class="btn btn-danger btn-lg mt-3 w-100">
+                Forget me!
+            </button>
+
+            <a asp-page="./PersonalData"
+               class="btn btn-secondary btn-lg mt-3 ms-2">
+                Cancel
+            </a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}
