@@ -74,7 +74,7 @@ public class ApplicationUser : IdentityUser
 //public class AuthorDTO
 //{
   //  public required string Name { get; set; }
-    /7public required string Email { get; set; }
+    //public required string Email { get; set; }
 //}
 // not currently used cause Author doesnt leave this layer
 public class FollowDTO
