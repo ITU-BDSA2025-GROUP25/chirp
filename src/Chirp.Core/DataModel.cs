@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace Chirp.Razor;
+namespace Chirp.Core;
 
 public class Author
 {

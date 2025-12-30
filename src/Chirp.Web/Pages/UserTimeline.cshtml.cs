@@ -1,4 +1,5 @@
-﻿using Chirp.Infrastructure;
+﻿using Chirp.Core;
+using Chirp.Infrastructure;
 using Chirp.Razor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

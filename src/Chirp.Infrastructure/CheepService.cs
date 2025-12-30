@@ -1,4 +1,5 @@
-using Chirp.Razor;
+using Chirp.Core;
+using Chirp.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 public interface ICheepService

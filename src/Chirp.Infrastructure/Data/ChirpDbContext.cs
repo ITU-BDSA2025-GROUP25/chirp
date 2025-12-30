@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Chirp.Core;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Razor;
-
+namespace Chirp.Infrastructure;
 public class ChirpDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Cheep> Cheeps { get; set; }

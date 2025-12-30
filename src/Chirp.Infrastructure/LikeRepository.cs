@@ -1,5 +1,6 @@
-using Microsoft.EntityFrameworkCore;
-using Chirp.Razor; 
+using Chirp.Core;
+using Chirp.Infrastructure;
+using Microsoft.EntityFrameworkCore; 
 
 public class LikeRepository : ILikeRepository
 {

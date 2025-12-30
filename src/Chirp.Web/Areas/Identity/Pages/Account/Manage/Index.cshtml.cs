@@ -4,6 +4,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Chirp.Core;
 using Chirp.Razor;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

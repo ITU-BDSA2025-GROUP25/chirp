@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AspNet.Security.OAuth.GitHub;
+using Chirp.Core;
+using Chirp.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
