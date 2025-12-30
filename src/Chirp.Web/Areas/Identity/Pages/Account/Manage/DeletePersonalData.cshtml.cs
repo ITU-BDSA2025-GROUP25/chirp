@@ -62,6 +62,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
+        // Handles the deletion request when the form is submitted
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -72,7 +73,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
 
             if (RequirePassword)
             {
-                // Trigger validation (e.g., required password)
+                // Trigger validation required password)
                 if (!ModelState.IsValid)
                     return Page();
 
@@ -84,14 +85,13 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             }
 
             // Key used in Chirp domain tables (follows/likes/authors).
-            // In your setup this is typically the email/username used as User.Identity.Name.
             var userKey = User.Identity?.Name ?? user.UserName;
             if (string.IsNullOrWhiteSpace(userKey))
                 return BadRequest("Could not determine the current user's key.");
 
             // ---- Chirp domain cleanup/anonymization ----
 
-            // Remove follow relationships (both directions)
+            // Remove follow relationships
             var follows = await _db.Follows
                 .Where(f => f.Follower == userKey || f.Followee == userKey)
                 .ToListAsync();
@@ -110,22 +110,20 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             var author = await _db.Authors.FirstOrDefaultAsync(a => a.Email == userKey);
             if (author != null)
             {
+                //when deletion happened set name to "deleted user and email to anonEmail to scramble identity
                 author.Name = "Deleted user";
                 author.Email = anonEmail;
             }
 
             await _db.SaveChangesAsync();
-
-            // ---- IMPORTANT FIX FOR GITHUB / EXTERNAL LOGINS ----
-            // Ensure external login entries are removed so the (LoginProvider, ProviderKey)
-            // combination is not left behind, which otherwise blocks future registrations.
+            
             var logins = await _userManager.GetLoginsAsync(user);
             foreach (var login in logins)
             {
                 await _userManager.RemoveLoginAsync(user, login.LoginProvider, login.ProviderKey);
             }
 
-            // ---- Identity delete + logout ----
+            // ---- Identity delete logout ----
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
             {
