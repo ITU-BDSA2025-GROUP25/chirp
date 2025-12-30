@@ -6,13 +6,13 @@
 }
 
 <h3>@ViewData["Title"]</h3>
-<partial name="_StatusMessage" for="StatusMessage" />
+<partial name="_StatusMessage" for="StatusMessage"/>
 <div class="row">
     <div class="col-md-6">
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
+                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled/>
                 <label asp-for="Username" class="form-label"></label>
             </div>
             <div class="form-floating mb-3">
@@ -22,9 +22,28 @@
             </div>
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
+
+        <hr class="my-4"/>
+
+        <h4>Following</h4>
+        @if (Model.FollowingUsers != null && Model.FollowingUsers.Count > 0)
+        {
+            <ul class="list-unstyled">
+                @foreach (var u in Model.FollowingUsers)
+                {
+                    <li class="mb-2">
+                        <a href="/@u.UserKey">@u.DisplayName</a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <em>You are not following anyone yet.</em>
+        }
     </div>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 }
