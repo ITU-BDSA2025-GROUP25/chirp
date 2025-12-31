@@ -32,16 +32,16 @@ public class AuthorRepositoryTests
     public async Task CreateAndFindAuthor_WorksCorrectly()
     {
         
-        // Act - create a new author
+        // create a new author
         var newAuthor = new Author { Name = "Heðin", Email = "hedin@example.com" };
         await repo.CreateAuthor(newAuthor);
 
-        // Assert - find by name
+        // find by name
         var foundByName = await repo.FindByName("Heðin");
         Assert.NotNull(foundByName);
         Assert.Equal("hedin@example.com", foundByName.Email);
 
-        // Assert - find by email
+        // find by email
         var foundByEmail = await repo.FindByEmail("hedin@example.com");
         Assert.NotNull(foundByEmail);
         Assert.Equal("Heðin", foundByEmail.Name);
@@ -50,10 +50,8 @@ public class AuthorRepositoryTests
     [Fact]
     public async Task FindByName()
     {
-        // Act
         var result = await repo.FindByName("Nonexistent");
 
-        // Assert
         Assert.Null(result);
     }
 }
