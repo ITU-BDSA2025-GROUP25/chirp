@@ -1,13 +1,23 @@
-﻿Testing if this push triggers build_and_test workflow again
+How to make Chirp! work locally
+Prerequisites:
+•.NET SDK 9.x (the web project targets net9.0)
+•Only needed for troubleshooting migrations) EF Core CLI:
+If dotnet ef is not recognized, install it: dotnet tool install --global dotnet-ef
 
-Install CHIRP cli locally on your computer guide
-dotnet pack -c Release
-dotnet tool install --global --add-source ./bin/Release Chirp.CLI
-
-//if already installed then uninstall old one
-dotnet tool uninstall --global Chirp.CLI
-
-Add dotnet tools to your PATH
-Tools install into ~/.dotnet/tools. Add this line to your ~/.zshrc (or ~/.bashrc if using bash):
-export PATH="$PATH:$HOME/.dotnet/tools"
-source ~/.zshrc
+Clone the repository
+git clone https://github.com/ITU-BDSA2025-GROUP25/chirp
+cd chirp
+Run the web app
+Navigate into the web project and start it:
+cd src
+cd Chirp.Web
+dotnet run
+click on localhost: link in terminal
+Troubleshooting: migration / database issues
+If you get database/migration errors (e.g., the DB schema is out of sync), reset the local SQLite database files and re-apply migrations.
+Delete Cheep.db in (Chirp.Web) (possible in Chirp.Infrastructure if typed wrong commands)
+Recreate database from migrations (from Chirp.Infrastructure)
+cd src
+cd Chirp.Infrastructure
+dotnet ef database update --startup-project "../Chirp.Web/Chirp.Web.csproj"
+then run dotnet in Chirp.Web again after
