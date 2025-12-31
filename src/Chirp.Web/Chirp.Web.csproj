@@ -47,9 +47,5 @@
         <Content Update="Areas\**\*.cshtml" CopyToPublishDirectory="PreserveNewest" />
         <Content Update="Pages\**\*.cshtml" CopyToPublishDirectory="PreserveNewest" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Areas\Identity\Data\" />
-    </ItemGroup>
     
 </Project>

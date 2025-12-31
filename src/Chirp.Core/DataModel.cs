@@ -69,16 +69,3 @@ public class ApplicationUser : IdentityUser
     [StringLength(20)] 
     public string DisplayName { get; set; } = "";
 }
-
-// not currently used cause Author doesnt leave this layer
-//public class AuthorDTO
-//{
-  //  public required string Name { get; set; }
-    //public required string Email { get; set; }
-//}
-// not currently used cause Author doesnt leave this layer
-public class FollowDTO
-{
-    public required string Follower { get; set; }
-    public required string Followee { get; set; }
-}
