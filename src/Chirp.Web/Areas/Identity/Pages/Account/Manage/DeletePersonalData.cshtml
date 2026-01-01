@@ -10,13 +10,14 @@
 <div class="alert alert-warning" role="alert">
     <p><strong>This action cannot be undone.</strong></p>
     <p>
-        This will delete your login account, remove follow / like relationships, and anonymize your author identity.
-        Your cheeps may remain, but will no longer be linked to you.
+        This will delete your login account, remove follow / like relationships,
+        and anonymize your author identity. Your cheeps may remain, but will no longer be linked to you.
     </p>
 </div>
 
 <div class="row">
     <div class="col-md-6">
+
         <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
         <form method="post">
@@ -34,13 +35,28 @@
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
             }
+            else
+            {
+                <p class="text-muted">
+                    Your account does not have a local password (e.g., created via external login).
+                    Type <strong>FORGET</strong> to confirm.
+                </p>
 
-            <button class="btn btn-danger" type="submit">Forget me!</button>
-            <a class="btn btn-secondary ms-2" asp-page="./PersonalData">Cancel</a>
+                <div class="mb-3">
+                    <label asp-for="Input.ConfirmText" class="form-label"></label>
+                    <input asp-for="Input.ConfirmText"
+                           class="form-control"
+                           placeholder="Type FORGET"/>
+                    <span asp-validation-for="Input.ConfirmText" class="text-danger"></span>
+                </div>
+            }
+
+            <button type="submit" class="btn btn-danger btn-lg mt-3">Forget me!</button>
+            <a asp-page="./PersonalData" class="btn btn-secondary btn-lg mt-3 ms-2">Cancel</a>
         </form>
     </div>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial"/>
+    <partial name="_ValidationScriptsPartial" />
 }

@@ -18,6 +18,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
     [Authorize]
     public class DeletePersonalDataModel : PageModel
     {
+        private const string ConfirmPhrase = "FORGET";
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ChirpDbContext _db;
@@ -42,10 +44,12 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required(ErrorMessage = "Password is required.")]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
+
+            [Display(Name = "Confirmation")]
+            public string ConfirmText { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -55,14 +59,10 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
 
             RequirePassword = await _userManager.HasPasswordAsync(user);
-
-            // Initialize model for clean binding/validation
             Input = new InputModel();
-
             return Page();
         }
 
-        // Handles the deletion request when the form is submitted
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -71,11 +71,14 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
 
             RequirePassword = await _userManager.HasPasswordAsync(user);
 
+            // --- Confirmation step ---
             if (RequirePassword)
             {
-                // Trigger validation required password)
-                if (!ModelState.IsValid)
+                if (string.IsNullOrWhiteSpace(Input?.Password))
+                {
+                    ModelState.AddModelError(string.Empty, "Password is required.");
                     return Page();
+                }
 
                 if (!await _userManager.CheckPasswordAsync(user, Input.Password))
                 {
@@ -83,58 +86,66 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
                     return Page();
                 }
             }
+            else
+            {
+                if (!string.Equals(Input?.ConfirmText?.Trim(), ConfirmPhrase, StringComparison.Ordinal))
+                {
+                    ModelState.AddModelError(string.Empty, $"Type {ConfirmPhrase} to confirm.");
+                    return Page();
+                }
+            }
 
-            // Key used in Chirp domain tables (follows/likes/authors).
+            // Key used in Chirp domain tables (follows/likes/authors)
             var userKey = User.Identity?.Name ?? user.UserName;
             if (string.IsNullOrWhiteSpace(userKey))
                 return BadRequest("Could not determine the current user's key.");
 
             // ---- Chirp domain cleanup/anonymization ----
-
-            // Remove follow relationships
             var follows = await _db.Follows
                 .Where(f => f.Follower == userKey || f.Followee == userKey)
                 .ToListAsync();
             if (follows.Count > 0)
                 _db.Follows.RemoveRange(follows);
 
-            // Remove likes by this user
             var likes = await _db.Likes
                 .Where(l => l.Username == userKey)
                 .ToListAsync();
             if (likes.Count > 0)
                 _db.Likes.RemoveRange(likes);
 
-            // Anonymize author so cheeps no longer display personal identity
             var anonEmail = $"deleted-{Guid.NewGuid():N}@anon.invalid";
             var author = await _db.Authors.FirstOrDefaultAsync(a => a.Email == userKey);
             if (author != null)
             {
-                //when deletion happened set name to "deleted user and email to anonEmail to scramble identity
                 author.Name = "Deleted user";
                 author.Email = anonEmail;
             }
 
             await _db.SaveChangesAsync();
-            
+
+            // ---- External logins cleanup (OAuth re-registration fix) ----
             var logins = await _userManager.GetLoginsAsync(user);
             foreach (var login in logins)
             {
-                await _userManager.RemoveLoginAsync(user, login.LoginProvider, login.ProviderKey);
+                var removeLoginResult = await _userManager.RemoveLoginAsync(user, login.LoginProvider, login.ProviderKey);
+                if (!removeLoginResult.Succeeded)
+                {
+                    foreach (var e in removeLoginResult.Errors)
+                        ModelState.AddModelError(string.Empty, e.Description);
+                    return Page();
+                }
             }
 
-            // ---- Identity delete logout ----
+            // ---- Identity delete + logout ----
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
             {
                 foreach (var e in result.Errors)
                     ModelState.AddModelError(string.Empty, e.Description);
-
                 return Page();
             }
 
             await _signInManager.SignOutAsync();
-
             _logger.LogInformation("User '{UserId}' deleted their account via Forget me.", user.Id);
 
             return Redirect("~/");
