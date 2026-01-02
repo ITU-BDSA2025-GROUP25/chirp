@@ -34,15 +34,27 @@ jobs:
         env:
           GitHub__ClientId: ${{ secrets.GITHUBCLIENTID }}
           GitHub__ClientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --verbosity normal
         working-directory: test/Chirp.Tests
         
       - name: Run uiTests
         env:
           GitHub__ClientId: ${{ secrets.GITHUBCLIENTID }}
           GitHub__ClientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
-        run: dotnet test --no-build --verbosity normal
-        working-directory: test/PlaywrightTests
+        run: |
+          # Go to test directory
+          cd test/PlaywrightTests
+          
+          # Clean and rebuild
+          dotnet clean
+          dotnet build
+          
+          # Install Playwright browsers via .NET
+          dotnet tool restore
+          
+          # Run tests with diagnostic output
+          dotnet test --verbosity diagnostic
+          working-directory: .
 
       # GitHub OAuth authentication test
       - name: Test GitHub OAuth authentication
