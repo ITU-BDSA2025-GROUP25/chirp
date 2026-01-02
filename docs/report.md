@@ -1,9 +1,12 @@
 ---
 title: _Chirp!_ Project Report
-subtitle: ITU BDSA 2025 Group `<no>`
+subtitle: ITU BDSA 2025 Group `<25>`
 author:
-  - "Helge Pfeiffer <ropf@itu.dk>"
+  - "Joachim Blom-Hanssen <jblo@itu.dk>"
   - "Adrian Hoff <adho@itu.dk>"
+  - "Ahmad Shahid <ahsh@itu.dk>"
+  - "Anton Krøis <antk@itu.dk>"
+  - "William le Fèvre <wile@itu.dk>"
 numbersections: true
 ---
 
@@ -21,9 +24,9 @@ Similarly, Follow (Follower, Followee) and Like (Username) store user references
 Finally, Like is conceptually associated with Cheep through CheepId, meaning that a cheep can have multiple likes. Since this association is not enforced by a database foreign key, it is represented as a non-enforced domain relationship.
 
 
-![Illustration of the _Chirp!_ data model as UML class diagram.](docs/images/domain_model.png)
 
 ## Architecture — In the small
+
 The Chirp application follows an onion architecture pattern organized into three concentric layers.
 
 At the center is the Core layer (Chirp.Core), which contains the domain entities (Author, Cheep, Follow, Like) and data transfer objects CheepDTO defined in DataModel.cs. This layer has no external dependencies and represents the application's business domain.
@@ -37,6 +40,7 @@ Dependency Flow
 Dependencies flow inward: Web → Infrastructure → Core. The Core layer has zero external dependencies, Infrastructure references only Core, and Web references both outer layers. This ensures the domain logic remains independent of infrastructure and UI concerns.
 
 ## Architecture of deployed application
+[Client-server.pdf](images/Client-server.pdf)
 The Chirp application follows a client-server architecture deployed on Microsoft Azure.
 
 The client component consists of standard web browsers (Chrome, Firefox, Safari, Edge) that communicate with the server via HTTPS. Users interact with the application through rendered HTML pages with embedded CSS styling and minimal client-side JavaScript. The browser sends HTTP requests and receives HTML responses containing the complete page content for display.
@@ -143,3 +147,6 @@ Chirp! is released under the MIT License. The license file (LICENSE.md) is locat
 We chose the MIT License because it is a simple and permissive open-source license that allows the software to be freely used, modified, and distributed. This makes it appropriate for an educational project, while the included warranty disclaimer protects us from liability.
 
 ## LLMs, ChatGPT, CoPilot, and others
+ChatGPT and Claude were used as a supportive tool during development.
+They were primarily applied to clarify the new framework concepts introduced in this course, such as ASP.NET Core, Entity Framework Core, Razor Pages, by helping with understanding documentation and interpreting error messages. Sometimes it was used to discuss whether a given solution could be improved from a software architecture perspective, and why tell it to also reason why that might be the case
+However in the end all suggested solution required manual checking, adaptions and reasoning to ensure they fit the projects architecture
