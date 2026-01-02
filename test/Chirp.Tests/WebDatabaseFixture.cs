@@ -53,6 +53,15 @@ public class WebDatabaseFixture : IDisposable
         _serviceScope = _webAppFactory.Services.CreateScope();
         _context = _serviceScope.ServiceProvider.GetRequiredService<ChirpDbContext>();
         
+        // Creates schema without migrations
+        _context.Database.EnsureCreated();
+    
+        _httpClient = _webAppFactory.CreateClient(new WebApplicationFactoryClientOptions
+        {
+            AllowAutoRedirect = true,
+            HandleCookies = true
+        });
+        
         return _httpClient;
     }
 

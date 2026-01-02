@@ -49,7 +49,7 @@ public class TestAPI : IClassFixture<WebDatabaseFixture>
         Assert.Contains("Chirp!", content);
         Assert.Contains($"{author}'s Timeline", content);
     }
-  // testing
+    
     [Fact]
     public async Task PublicTimelineContainsHelgeCheep()
     {
@@ -81,7 +81,7 @@ public class TestAPI : IClassFixture<WebDatabaseFixture>
         Assert.Contains("Hej, velkommen til kurset.", content);
     }*/
     
-    [Fact]
+    [Fact] // Helps with seeing the database. Not a real Test
     public void Diagnostic_CheckDatabaseState()
     {
         _testOutputHelper.WriteLine("=== RUNNING DATABASE DIAGNOSTIC ===");
