@@ -102,7 +102,7 @@ public class ForgetMeUiTests : PageTest
     [Test]
     public async Task PersonalDataPage_HasDownloadOption()
     {
-        await Login(Email, password: Password);
+        await Login(Email, Password);
         
         await Page.GotoAsync($"{BaseUrl}/Identity/Account/Manage/PersonalData");
         
