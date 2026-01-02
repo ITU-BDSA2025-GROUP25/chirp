@@ -83,6 +83,7 @@ Our release workflow (release.yml) activates when a version tag (following the p
 Additionally, we maintain a lightweight automation workflow (Issue-projectBoard-automation.yml) that automatically labels newly opened or reopened issues with "triage", helping us maintain consistent issue management practices.
 
 ## Team work
+![Teamwork.PNG](images/Teamwork.PNG)
 Flow of activities
 
 The Issues are created with a user story, Acceptance criteria, Label, and are automatically labeled with triage using Actions workflow. Then manually added to the project board and initially placed in Todo, and moved between In Progress, Done, accordingly by the team as work progresses.
