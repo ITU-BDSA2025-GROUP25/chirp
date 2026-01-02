@@ -34,7 +34,7 @@ jobs:
         env:
           GitHub__ClientId: ${{ secrets.GITHUBCLIENTID }}
           GitHub__ClientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
-        run: dotnet test --verbosity normal
+        run: dotnet test --no-build --verbosity normal
         working-directory: test/Chirp.Tests
         
       - name: Run uiTests
@@ -53,7 +53,7 @@ jobs:
           dotnet tool restore
           
           # Run tests with diagnostic output
-          dotnet test --verbosity diagnostic
+          dotnet test --no-build --verbosity diagnostic
           working-directory: .
 
       # GitHub OAuth authentication test
