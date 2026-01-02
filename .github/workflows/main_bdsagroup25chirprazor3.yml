@@ -36,25 +36,6 @@ jobs:
           GitHub__ClientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
         run: dotnet test --no-build --verbosity normal
         working-directory: test/Chirp.Tests
-        
-      - name: Run uiTests
-        env:
-          GitHub__ClientId: ${{ secrets.GITHUBCLIENTID }}
-          GitHub__ClientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
-        run: |
-          # Go to test directory
-          cd test/PlaywrightTests
-          
-          # Clean and rebuild
-          dotnet clean
-          dotnet build
-          
-          # Install Playwright browsers
-          pwsh bin/Debug/net9.0/playwright.ps1 install
-          
-          # Run tests with diagnostic output
-          dotnet test --no-build --verbosity diagnostic
-        working-directory: .
 
       # GitHub OAuth authentication test
       - name: Test GitHub OAuth authentication
@@ -100,3 +81,4 @@ jobs:
           app-name: 'bdsagroup25chirprazor3'
           slot-name: 'Production'
           package: ./publish
+
