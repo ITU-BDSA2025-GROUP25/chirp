@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using Chirp.Core;
+using Chirp.Infrastructure;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Chirp.Razor;

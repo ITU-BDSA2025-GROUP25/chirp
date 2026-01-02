@@ -1,4 +1,5 @@
 ﻿using System;
+using Chirp.Core;
 using Chirp.Razor;
 using Chirp.Infrastructure;
 using Microsoft.Data.Sqlite;
