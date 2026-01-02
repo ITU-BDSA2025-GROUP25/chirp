@@ -42,7 +42,7 @@ jobs:
           GitHub__ClientId: ${{ secrets.GITHUBCLIENTID }}
           GitHub__ClientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
         run: dotnet test --no-build --verbosity normal
-        working-directory: test/PlaywrigtTests
+        working-directory: test/PlaywrightTests
 
       # GitHub OAuth authentication test
       - name: Test GitHub OAuth authentication
