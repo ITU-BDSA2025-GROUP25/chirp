@@ -100,7 +100,7 @@ public class ForgetMeUiTests : PageTest
     }
     
     [Test]
-    public async Task PersonalDataPage_HasDeleteOption()
+    public async Task PersonalDataPage_HasDownloadOption()
     {
         await Login(Email, password: Password);
         
