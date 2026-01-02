@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AspNet.Security.OAuth.GitHub;
+using Chirp.Core;
+using Chirp.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +47,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ChirpDbContext>();
+    context.Database.EnsureDeleted();
     context.Database.Migrate();
     DbInitializer.SeedDatabase(context);
 }

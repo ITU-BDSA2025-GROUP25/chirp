@@ -3,8 +3,8 @@
 #nullable disable
 
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-using Chirp.Razor;
+using Chirp.Core;
+using Chirp.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,16 +15,27 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IFollowRepository _followRepository;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IFollowRepository followRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _followRepository = followRepository;
         }
 
         public string Username { get; set; }
+
+        public class FollowingUser
+        {
+            public string UserKey { get; set; }
+            public string DisplayName { get; set; }
+        }
+
+        public System.Collections.Generic.List<FollowingUser> FollowingUsers { get; set; } = new();
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -39,21 +50,56 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             public string PhoneNumber { get; set; }
         }
 
-        private async Task LoadAsync(ApplicationUser user)
+        private async System.Threading.Tasks.Task LoadAsync(ApplicationUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user); // email in your setup
+            var followerKey = User?.Identity?.Name ?? user.UserName;
+
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
-            // Show DisplayName instead of email in the Username field
-            Username = string.IsNullOrWhiteSpace(user.DisplayName) ? userName : user.DisplayName;
+            // Display name in the UI header field (disabled input)
+            Username = string.IsNullOrWhiteSpace(user.DisplayName)
+                ? (user.UserName ?? "")
+                : user.DisplayName;
 
             Input = new InputModel
             {
                 PhoneNumber = phoneNumber
             };
+
+            FollowingUsers = new System.Collections.Generic.List<FollowingUser>();
+
+            if (string.IsNullOrWhiteSpace(followerKey))
+                return;
+
+            var followingKeys = await _followRepository.GetFollowing(followerKey);
+
+            if (followingKeys == null || followingKeys.Count == 0)
+                return;
+
+            // each followed user's display name
+            foreach (var key in followingKeys)
+            {
+                if (string.IsNullOrWhiteSpace(key))
+                    continue;
+
+                var followedUser = await _userManager.FindByNameAsync(key);
+
+                var display = followedUser != null && !string.IsNullOrWhiteSpace(followedUser.DisplayName)
+                    ? followedUser.DisplayName
+                    : key;
+
+                FollowingUsers.Add(new FollowingUser
+                {
+                    UserKey = key,
+                    DisplayName = display
+                });
+            }
+
+            // Optional: sort nicely
+            FollowingUsers.Sort((a, b) => string.Compare(a.DisplayName, b.DisplayName, System.StringComparison.OrdinalIgnoreCase));
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public async System.Threading.Tasks.Task<IActionResult> OnGetAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -63,7 +109,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async System.Threading.Tasks.Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)

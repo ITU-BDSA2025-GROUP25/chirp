@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Chirp.Core;
 using Chirp.Infrastructure;
 using Chirp.Razor;
 using Microsoft.AspNetCore.Identity;

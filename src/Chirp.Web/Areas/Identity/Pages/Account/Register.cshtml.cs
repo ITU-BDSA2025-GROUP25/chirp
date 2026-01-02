@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Chirp.Core;
 using Chirp.Razor; // <-- ApplicationUser lives here
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;

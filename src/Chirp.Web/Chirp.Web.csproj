@@ -22,7 +22,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.10" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.11" />
         <PackageReference Include="System.Data.SQLite" Version="2.0.2" />
     </ItemGroup>
 
@@ -46,10 +46,6 @@
     <ItemGroup>
         <Content Update="Areas\**\*.cshtml" CopyToPublishDirectory="PreserveNewest" />
         <Content Update="Pages\**\*.cshtml" CopyToPublishDirectory="PreserveNewest" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Areas\Identity\Data\" />
     </ItemGroup>
     
 </Project>

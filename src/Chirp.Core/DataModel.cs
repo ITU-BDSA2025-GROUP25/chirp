@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace Chirp.Razor;
+namespace Chirp.Core;
 
 public class Author
 {
@@ -68,18 +68,4 @@ public class ApplicationUser : IdentityUser
     [Required] 
     [StringLength(20)] 
     public string DisplayName { get; set; } = "";
-}
-
-// not currently used cause Author doesnt leave this layer
-public class AuthorDTO
-{
-    public required string Name { get; set; }
-    public required string Email { get; set; }
-}
-
-// not currently used cause Author doesnt leave this layer
-public class FollowDTO
-{
-    public required string Follower { get; set; }
-    public required string Followee { get; set; }
 }

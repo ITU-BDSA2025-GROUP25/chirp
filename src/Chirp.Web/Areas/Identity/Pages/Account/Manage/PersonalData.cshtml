@@ -1,0 +1,44 @@
+@page
+@model Chirp.Web.Areas.Identity.Pages.Account.Manage.PersonalDataModel
+@{
+    ViewData["Title"] = "Personal data";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="alert alert-info" role="alert">
+    <p>
+        Your account contains personal data that you have given us. This page allows you to download or delete that
+        data.
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+
+        <h4>Download personal data</h4>
+        <p>Download a copy of your personal data.</p>
+
+        <!-- This uses the built-in Identity DownloadPersonalData page (from the package) -->
+        <form method="post" asp-page="./DownloadPersonalData">
+            <button class="btn btn-primary" type="submit">Download</button>
+        </form>
+
+        <hr class="my-4"/>
+
+        <h4>Forget me</h4>
+        <div class="alert alert-warning" role="alert">
+            <p><strong>This action cannot be undone.</strong></p>
+            <p>
+                This will delete your login account, remove follow / like relationships,
+                and anonymize your author identity. Your cheeps may remain, but will no longer be linked to you.
+            </p>
+        </div>
+
+        <a asp-page="./DeletePersonalData" class="btn btn-danger btn-lg mt-2">
+            Forget me!
+        </a>
+
+    </div>
+</div>

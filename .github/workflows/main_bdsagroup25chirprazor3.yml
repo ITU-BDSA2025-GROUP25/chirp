@@ -34,8 +34,8 @@ jobs:
         env:
           GitHub__ClientId: ${{ secrets.GITHUBCLIENTID }}
           GitHub__ClientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
-        run: dotnet test Chirp.CLI.sln --configuration Release --no-build
-
+        run: dotnet test --no-build --verbosity normal
+        working-directory: test/Chirp.Tests
 
       # GitHub OAuth authentication test
       - name: Test GitHub OAuth authentication
@@ -81,3 +81,4 @@ jobs:
           app-name: 'bdsagroup25chirprazor3'
           slot-name: 'Production'
           package: ./publish
+
