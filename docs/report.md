@@ -129,6 +129,8 @@ Option 1
 3) Run all tests with the command:
    dotnet test
 
+To run playwright tests, make sure that playwright is installed on your machine.
+
 Option 2
 Using JetBrains Rider, there is a built-in tool to use tests.
 You can use the keyboard shortcut : Alt + Shift + 8
