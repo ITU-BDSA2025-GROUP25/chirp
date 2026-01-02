@@ -24,10 +24,10 @@ public class ForgetMeUiTests : PageTest
         Console.WriteLine($"Current URL: {Page.Url}");
         Console.WriteLine($"Page title: {await Page.TitleAsync()}");
         
-        // Take screenshot for debugging
+        /*// Take screenshot for debugging
         await Page.ScreenshotAsync(new PageScreenshotOptions { 
             Path = "personal-data-page.png" 
-        });
+        });*/
         
         var deleteButton = Page.GetByRole(AriaRole.Button, new PageGetByRoleOptions { Name = "Forget me!" });
         
