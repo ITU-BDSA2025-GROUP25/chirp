@@ -56,11 +56,15 @@ The Chirp application provides different functionality based on user authenticat
 
 Non-Authorized User Journey
 
-An unauthorized user arriving at the application lands on the public timeline at the root endpoint (/). This page displays all cheeps from all users in reverse chronological order, paginated with 32 cheeps per page. Users can navigate between pages and click on author names to view individual user timelines (/{username}). Each cheep displays the author name, message text, timestamp, and like count. However, unauthorized users cannot interact with the content—they cannot post cheeps, follow users, or like cheeps. The header provides two authentication options: "Register" for creating a local account with displayName, email and password, or "Login" which offers both local login and GitHub OAuth authentication.
+An unauthorized user arriving at the application is presented with the public timeline at the root endpoint (/). This page displays cheeps from all users in reverse chronological order, paginated with 32 cheeps per page. Users can navigate between pages and click on author names to view individual user timelines (/{username}). 
+Each cheep displays the author name, message text, timestamp, and like count. Unauthorized users cannot interact with the content; they are unable to post cheeps, follow users, or like cheeps. The application header provides authentication options for registration and login. Registration can be performed using a local account with a display name, email, and password, or via GitHub OAuth. In the GitHub-based registration flow, only the user’s email address is provided by the OAuth provider, and the application therefore assigns the display name to be equal to the email address. This behavior is a known limitation, and attempts were made during development to improve this mapping. Login supports both local credentials and GitHub OAuth authentication.
 
 Authorized User Journey
 
-After successful authentication, users are redirected to their private timeline (/Private). This personalized feed displays cheeps from the user themselves and from all users they follow, also paginated with 32 cheeps per page. The page includes a form at the top where users can post new cheeps with a 160-character limit. From any user timeline page, authenticated users can follow or unfollow other users using dedicated buttons. Each cheep displays a heart icon that users can click to like or unlike the cheep, with the like count updating accordingly. The header navigation displays the logged-in username and provides a logout option. Users retain access to the public timeline and all user timelines, maintaining full read access across the application while gaining write capabilities in their authenticated context.
+After successful authentication, users are redirected to their private timeline (/Private). This personalized feed displays cheeps authored by the user themselves as well as by users they follow. Cheeps are shown in reverse chronological order, paginated with 32 cheeps per page, and can optionally be sorted by most likes. At the top of the page, users are provided with a form for posting new cheeps, subject to a 160-character limit.
+From any user timeline, authenticated users can follow or unfollow other users using dedicated buttons. Each cheep includes a heart icon that allows users to like or unlike the cheep, with the like count updating accordingly. Authenticated users retain full read access to the public timeline and all user timelines, while gaining write and interaction capabilities in their authenticated context.
+The header navigation displays the logged-in user’s identifier and provides access to additional user-specific pages. The “About Me” page presents an overview of the users that the authenticated user is currently following. A separate personal information section allows users to download their personal data.
+Users may also choose to permanently remove their account using the “Forget about me” functionality. To confirm this action, users authenticated via local credentials must re-enter their password, while users authenticated through GitHub OAuth must explicitly confirm the action via a checkbox. Upon confirmation, all user-specific information is deleted, and any cheeps previously posted by the user are anonymized rather than removed. This ensures compliance with GDPR
 
 ## Sequence of functionality/calls trough _Chirp!_
 This Chirp sequence diagram illustrates the flow of data for an unauthorized user.
@@ -94,6 +98,8 @@ Prerequisites:
 •.NET SDK 9.x (the web project targets net9.0)
 •Only needed for troubleshooting migrations) EF Core CLI:
 If dotnet ef is not recognized, install it: dotnet tool install --global dotnet-ef
+•create a GitHub OAuth App and obtain a Client ID and Client Secret
+dotnet user-secrets set "Authentication:GitHub:ClientId" "<GITHUB_CLIENT_ID>" dotnet user-secrets set "Authentication:GitHub:ClientSecret" "<GITHUB_CLIENT_SECRET>"
 
 Clone the repository
 git clone https://github.com/ITU-BDSA2025-GROUP25/chirp
@@ -151,4 +157,4 @@ We chose the MIT License because it is a simple and permissive open-source licen
 ## LLMs, ChatGPT, CoPilot, and others
 ChatGPT and Claude were used as a supportive tool during development.
 They were primarily applied to clarify the new framework concepts introduced in this course, such as ASP.NET Core, Entity Framework Core, Razor Pages, by helping with understanding documentation and interpreting error messages. Sometimes it was used to discuss whether a given solution could be improved from a software architecture perspective, and why tell it to also reason why that might be the case
-However in the end all suggested solution required manual checking, adaptions and reasoning to ensure they fit the projects architecture
+However in the end all suggested solution required manual checking, adaptions and reasoning to ensure they fit the projects architecture.
