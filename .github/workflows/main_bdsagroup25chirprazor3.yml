@@ -34,8 +34,15 @@ jobs:
         env:
           GitHub__ClientId: ${{ secrets.GITHUBCLIENTID }}
           GitHub__ClientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
-        run: dotnet test Chirp.CLI.sln --configuration Release --no-build
-
+        run: dotnet test --no-build --verbosity normal
+        working-directory: test/Chirp.Tests
+        
+      - name: Run uiTests
+        env:
+          GitHub__ClientId: ${{ secrets.GITHUBCLIENTID }}
+          GitHub__ClientSecret: ${{ secrets.GITHUBCLIENTSECRET }}
+        run: dotnet test --no-build --verbosity normal
+        working-directory: test/PlaywrigtTests
 
       # GitHub OAuth authentication test
       - name: Test GitHub OAuth authentication
