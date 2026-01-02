@@ -8,9 +8,9 @@ namespace PlaywrightTests;
 public class Tests : PageTest
 {
     private const string BaseUrl = "https://bdsagroup25chirprazor3-d4dha4bnb6dwgga4.norwayeast-01.azurewebsites.net/";
-    private const string Username = "TESTUSER";
-    private const string Email = "testuser@itu.dk";
-    private const string Password = "EArzCzGhRe4Hryn!";
+    private const string Username = "TEST";
+    private const string Email = "test@itu.dk";
+    private const string Password = "7VTcgjm5txmB7Xy!";
     
     [Test]
     public async Task CheepBox_ShouldNotBeVisible_WhenUserIsNotLoggedIn()
@@ -29,6 +29,7 @@ public class Tests : PageTest
     public async Task CheepBox_ShouldBeVisible_AfterSuccessfulLogin()
     {
         //login first
+        //await RegisterAsync();
         //await RegisterAsync();
         await LoginAsync();
         await Page.GotoAsync(BaseUrl);
