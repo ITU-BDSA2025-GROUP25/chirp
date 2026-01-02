@@ -13,7 +13,7 @@ numbersections: true
 # Design and Architecture of _Chirp!_
 
 ## Domain model
-
+![DomainModel.png](images/DomainModel.png)
 The domain model of Chirp! is illustrated in the diagram. Cheep represents a posted message and is the primary entity in the domain. Each cheep is owned by exactly one Author, forming a one-to-many relationship. This relationship is enforced by a foreign key (Cheep.AuthorId).
 
 User authentication and account data are handled by ASP.NET Identity through ApplicationUser, which inherits from IdentityUser and stores account information such as Mail and DisplayName in its table. The domain model does not reference Identity users via foreign keys. Instead, it relies on string-based identifiers resolved at the application level.
@@ -26,7 +26,7 @@ Finally, Like is conceptually associated with Cheep through CheepId, meaning tha
 
 
 ## Architecture — In the small
-
+![Architecture_In the small.png](images/Architecture_In%20the%20small.png)
 The Chirp application follows an onion architecture pattern organized into three concentric layers.
 
 At the center is the Core layer (Chirp.Core), which contains the domain entities (Author, Cheep, Follow, Like) and data transfer objects CheepDTO defined in DataModel.cs. This layer has no external dependencies and represents the application's business domain.
@@ -40,7 +40,7 @@ Dependency Flow
 Dependencies flow inward: Web → Infrastructure → Core. The Core layer has zero external dependencies, Infrastructure references only Core, and Web references both outer layers. This ensures the domain logic remains independent of infrastructure and UI concerns.
 
 ## Architecture of deployed application
-[Client-server.pdf](images/Client-server.pdf)
+![DeployedApplication.png](images/DeployedApplication.png)
 The Chirp application follows a client-server architecture deployed on Microsoft Azure.
 
 The client component consists of standard web browsers (Chrome, Firefox, Safari, Edge) that communicate with the server via HTTPS. Users interact with the application through rendered HTML pages with embedded CSS styling and minimal client-side JavaScript. The browser sends HTTP requests and receives HTML responses containing the complete page content for display.
@@ -52,6 +52,7 @@ Communication between client and server occurs over HTTPS (HTTP Secure) using th
 Deployment occurs automatically through GitHub Actions. When code is pushed to the main branch, a workflow builds the application using .NET 9.0, runs the test suite, publishes the Web project, and deploys the compiled artifacts to Azure App Service using Azure login credentials stored as GitHub secrets.
 
 ## User activities
+![UserActivities.png](images/UserActivities.png)
 The Chirp application provides different functionality based on user authentication status.
 
 Non-Authorized User Journey
@@ -63,6 +64,7 @@ Authorized User Journey
 After successful authentication, users are redirected to their private timeline (/Private). This personalized feed displays cheeps from the user themselves and from all users they follow, also paginated with 32 cheeps per page. The page includes a form at the top where users can post new cheeps with a 160-character limit. From any user timeline page, authenticated users can follow or unfollow other users using dedicated buttons. Each cheep displays a heart icon that users can click to like or unlike the cheep, with the like count updating accordingly. The header navigation displays the logged-in username and provides a logout option. Users retain access to the public timeline and all user timelines, maintaining full read access across the application while gaining write capabilities in their authenticated context.
 
 ## Sequence of functionality/calls trough _Chirp!_
+![SequenceDiagram.png](images/SequenceDiagram.png)
 This Chirp sequence diagram illustrates the flow of data for an unauthorized user.
 
 The sequence diagram illustrates the complete request-response cycle of the Chirp application, starting from an unauthorized user requesting the root endpoint and ending with a fully rendered web page displayed in the browser. The request flows through all architectural layers of the system, including the browser, ASP.NET Core routing and middleware, Razor PageModels, application services, repositories, and the database.
@@ -71,6 +73,7 @@ During this process, data is transformed multiple times: database rows are retri
 # Process
 
 ## Build, test, release, and deployment
+![Process.png](images/Process.png)
 Our CI/CD pipeline is implemented through GitHub Actions with three distinct workflows that automate different aspects of the development process.
 
 The primary deployment workflow (main_bdsagroup25chirprazor3.yml) triggers on every push to the main branch. It sets up the .NET 9.0 environment, restores NuGet dependencies, builds the solution, and executes the test suite. If all tests pass, the workflow publishes the application and deploys it to our Azure App Service instance (bdsagroup25chirprazor3) in the Norway East region. This ensures that every change merged to main is automatically tested and deployed to production, creating a continuous deployment pipeline.
@@ -128,8 +131,6 @@ Option 1
    [...]/chirp/PlaywrightTests
 3) Run all tests with the command:
    dotnet test
-
-To run playwright tests, make sure that playwright is installed on your machine.
 
 Option 2
 Using JetBrains Rider, there is a built-in tool to use tests.
