@@ -3,7 +3,7 @@ title: _Chirp!_ Project Report
 subtitle: ITU BDSA 2025 Group `<25>`
 author:
   - "Joachim Blom-Hanssen <jblo@itu.dk>"
-  - "Adrian Hoff <adho@itu.dk>"
+  - "Heðin Mortensen <hedm@itu.dk>"
   - "Ahmad Shahid <ahsh@itu.dk>"
   - "Anton Krøis <antk@itu.dk>"
   - "William le Fèvre <wile@itu.dk>"
