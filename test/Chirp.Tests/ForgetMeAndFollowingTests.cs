@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Chirp.Core;
+using Chirp.Infrastructure;
 using Chirp.Razor;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
