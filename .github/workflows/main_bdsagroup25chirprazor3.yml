@@ -49,12 +49,12 @@ jobs:
           dotnet clean
           dotnet build
           
-          # Install Playwright browsers via .NET
-          dotnet tool restore
+          # Install Playwright browsers
+          pwsh bin/Debug/net9.0/playwright.ps1 install
           
           # Run tests with diagnostic output
           dotnet test --no-build --verbosity diagnostic
-          working-directory: .
+        working-directory: .
 
       # GitHub OAuth authentication test
       - name: Test GitHub OAuth authentication
